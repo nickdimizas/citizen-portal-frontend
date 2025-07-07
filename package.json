@@ -13,7 +13,9 @@
     "check-format": "prettier --check .",
     "test": "vitest",
     "prepare": "husky",
-    "pre-commit": "npx lint-staged && npm run test"
+    "pre-commit": "npx lint-staged && npm run test",
+    "commit": "cz",
+    "release": "commit-and-tag-version"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -27,6 +29,9 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
+    "commit-and-tag-version": "^12.5.1",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -53,5 +58,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "npm run lint:fix",
     "*.{js,jsx,ts,tsx,json,css,scss,md}": "npm run format"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
