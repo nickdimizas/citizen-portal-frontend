@@ -21,30 +21,6 @@ COPY . .
 # Vite typically outputs the production build to the 'dist' directory.
 RUN npm run build
 
-# Stage 2: Development environment
-# This stage creates an image for running the Vite development server inside Docker.
-FROM node:20-alpine AS development
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy package.json and package-lock.json again for the development stage.
-COPY package*.json ./
-
-# Install dependencies for the development environment.
-# This ensures all devDependencies are available for 'npm run dev'.
-RUN npm install
-
-# Copy the full source code for development (including non-built files).
-COPY . .
-
-# Expose the default port for Vite's development server.
-# This port needs to be mapped from your host when running the container.
-EXPOSE 5173
-
-# Command to run the Vite development server when the container starts.
-# Ensure your package.json has a "dev" script, e.g., "dev": "vite".
-CMD ["npm", "run", "dev"]
 
 # Stage 3: Production environment
 # This stage creates a lightweight image to serve the built static assets using Nginx.
