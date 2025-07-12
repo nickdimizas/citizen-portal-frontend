@@ -1,23 +1,38 @@
-import { expect, afterEach, beforeAll, afterAll } from 'vitest';
+import { expect, afterEach, beforeAll, afterAll, beforeEach, vi, type MockInstance } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
+import ResizeObserver from 'resize-observer-polyfill';
 
 import { server } from './src/mocks/server';
 
-// Extends Vitest's expect with methods from react-testing-library
+let mathSpy: MockInstance;
+
 expect.extend(matchers);
 
-// Start the MSW server before all tests run.
-// This sets up the request interception for your entire test suite.
 beforeAll(() => server.listen());
 
-// Reset any request handlers that are declared in your tests (e.g., via `server.use()`).
-// This ensures that your tests are isolated and don't affect each other's mocking behavior.
-afterEach(() => {
-  cleanup(); // Cleanup React Testing Library DOM
-  server.resetHandlers(); // Reset MSW handlers
+beforeEach((): void => {
+  mathSpy = vi.spyOn(Math, 'random').mockReturnValue(0.1);
 });
 
-// Close the MSW server after all tests are done.
-// This cleans up the interception logic and ensures no resources are leaked.
+afterEach(() => {
+  cleanup();
+  server.resetHandlers();
+  mathSpy.mockRestore();
+  vi.clearAllMocks();
+});
+
 afterAll(() => server.close());
+
+const documentHeadHTML = `<title>Unit Tests</title>`;
+const documentBodyHTML = ``;
+
+global.window.document.head.innerHTML = documentHeadHTML;
+global.window.document.body.innerHTML = documentBodyHTML;
+
+global.window.innerWidth = 1920;
+global.window.innerHeight = 1080;
+
+if (typeof global.window.ResizeObserver === 'undefined') {
+  global.window.ResizeObserver = ResizeObserver;
+}
