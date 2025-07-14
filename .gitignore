@@ -27,3 +27,6 @@ dist-ssr
 .env*
 
 /public/mockServiceWorker.js
+
+# Test coverage reports
+coverage/
