@@ -14,6 +14,8 @@ COPY package*.json ./
 # For strict, reproducible builds (e.g., in CI/CD), 'npm ci' is often preferred.
 RUN npm install
 
+COPY .env.docker .env
+
 # Copy the rest of your application code
 COPY . .
 
