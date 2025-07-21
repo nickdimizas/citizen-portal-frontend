@@ -1,0 +1,11 @@
+node_modules
+.git
+.gitignore
+.env*
+!.env.docker
+.husky/_/
+public/mockServiceWorker.js
+.vscode/    
+.idea/
+logs
+*.log
