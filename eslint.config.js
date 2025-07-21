@@ -7,6 +7,7 @@ import { globalIgnores } from 'eslint/config';
 import eslintPluginImport from 'eslint-plugin-import';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 export default tseslint.config([
   globalIgnores(['dist', 'node_modules']),
@@ -15,6 +16,7 @@ export default tseslint.config([
     plugins: {
       import: eslintPluginImport,
       prettier: eslintPluginPrettier,
+      unicorn: eslintPluginUnicorn,
     },
     rules: {
       'prettier/prettier': 'warn',
