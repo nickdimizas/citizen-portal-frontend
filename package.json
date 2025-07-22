@@ -21,7 +21,8 @@
     "pre-commit": "npx lint-staged && npm run test",
     "commit": "cz",
     "release": "commit-and-tag-version",
-    "build:docker": "npm ci && npm run build && docker build"
+    "build:docker": "npm i && npm run build && docker build -t citizen-portal-frontend:prod .",
+    "run:docker": "docker run -d -p 5173:80 --name citizen-frontend --network citizen-net citizen-portal-frontend:prod"
   },
   "dependencies": {
     "react": "^19.1.0",
