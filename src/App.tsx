@@ -1,23 +1,16 @@
-function App() {
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import LoginPage from '@/pages/LoginPage';
+
+const App = () => {
   return (
-    <div
-      style={{
-        minHeight: '95vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <h1
-        style={{
-          fontSize: '3rem',
-          fontWeight: 'bold',
-        }}
-      >
-        Hello World!!!
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
