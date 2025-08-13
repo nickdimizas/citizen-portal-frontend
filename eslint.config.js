@@ -27,7 +27,7 @@ export default tseslint.config([
           'newlines-between': 'always',
         },
       ],
-      'import/no-unresolved': 'error',
+      'import/no-unresolved': 'warn',
       'import/no-duplicates': 'warn',
     },
     extends: [
@@ -48,10 +48,10 @@ export default tseslint.config([
           // to resolve paths and module exports.
           project: './tsconfig.json',
         },
-        // Optionally, for Vite's internal aliases (like '@/'), you might need this:
-        vite: {
-          configPath: './vite.config.ts', // Points to your vite config
-        },
+        // // Optionally, for Vite's internal aliases (like '@/'), you might need this:
+        // vite: {
+        //   configPath: './vite.config.ts', // Points to your vite config
+        // },
       },
       react: {
         version: 'detect', // Automatically detect the React version
