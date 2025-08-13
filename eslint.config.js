@@ -27,7 +27,7 @@ export default tseslint.config([
           'newlines-between': 'always',
         },
       ],
-      'import/no-unresolved': 'warn',
+      'import/no-unresolved': 'error',
       'import/no-duplicates': 'warn',
     },
     extends: [
@@ -46,7 +46,7 @@ export default tseslint.config([
         typescript: {
           // This tells eslint-import-resolver-typescript to use your tsconfig.json
           // to resolve paths and module exports.
-          project: './tsconfig.json',
+          project: './tsconfig.app.json',
         },
         // // Optionally, for Vite's internal aliases (like '@/'), you might need this:
         // vite: {
