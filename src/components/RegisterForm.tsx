@@ -5,7 +5,7 @@ import { Box, Button, Link, Paper, TextField, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import type { AxiosError } from 'axios';
 
-import { registerValidator, type RegisterFormInputs } from '@/validators/authValidators';
+import { registerValidator, type RegisterFormInputs } from '@/validators/authValidator';
 import { useRegister } from '@/hooks/useRegister';
 import { extractErrorMessage } from '@/utils/errorHandler';
 import theme from '@/theme';
@@ -19,7 +19,24 @@ const RegisterForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<RegisterFormInputs>({ resolver: zodResolver(registerValidator) });
+  } = useForm<RegisterFormInputs>({
+    resolver: zodResolver(registerValidator),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      firstname: '',
+      lastname: '',
+      phoneNumber: '',
+      ssn: '',
+      address: {
+        city: '',
+        street: '',
+        number: '',
+        postcode: '',
+      },
+    },
+  });
 
   const registerMutation = useRegister();
 

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import type { RegisterFormInputs } from '@/validators/authValidators';
+import type { RegisterFormInputs } from '@/validators/authValidator';
 import { registerApi } from '@/apis/auth';
 
 interface RegisterResponse {

@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import type { AxiosError } from 'axios';
 
-import { loginValidator, type LoginFormInputs } from '@/validators/authValidators';
+import { loginValidator, type LoginFormInputs } from '@/validators/authValidator';
 import { useLogin } from '@/hooks/useLogin';
 import { extractErrorMessage } from '@/utils/errorHandler';
 
@@ -39,6 +39,10 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginValidator),
+    defaultValues: {
+      usernameOrEmail: '',
+      password: '',
+    },
   });
 
   const loginMutation = useLogin();

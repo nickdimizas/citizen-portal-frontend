@@ -1,4 +1,4 @@
-import type { LoginFormInputs, RegisterFormInputs } from '@/validators/authValidators';
+import type { LoginFormInputs, RegisterFormInputs } from '@/validators/authValidator';
 
 import { axiosInstance } from './axiosInstance';
 

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import type { AxiosError } from 'axios';
 
-import type { LoginFormInputs } from '@/validators/authValidators';
+import type { LoginFormInputs } from '@/validators/authValidator';
 import { loginApi } from '@/apis/auth';
 import { setAuthenticated } from '@/store/authSlice';
 
