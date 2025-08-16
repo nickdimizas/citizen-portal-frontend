@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
+import type { AxiosError } from 'axios';
 
 import type { LoginFormInputs } from '@/validators/authValidators';
 import { loginApi } from '@/apis/auth';
@@ -13,7 +14,7 @@ interface LoginResponse {
 export const useLogin = () => {
   const dispatch = useDispatch();
 
-  return useMutation<LoginResponse, Error, LoginFormInputs>({
+  return useMutation<LoginResponse, AxiosError, LoginFormInputs>({
     mutationFn: loginApi,
     onSuccess: (data) => {
       if (data.status) {
@@ -21,7 +22,6 @@ export const useLogin = () => {
       }
     },
     onError: (error) => {
-      alert('Unable to connect. Please try again later.');
       console.error(error);
     },
   });
