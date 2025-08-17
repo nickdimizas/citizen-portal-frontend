@@ -5,7 +5,7 @@ interface BackendErrorData {
   message: string;
 }
 
-interface BackendErrorResponse {
+export interface BackendErrorResponse {
   status: boolean;
   message: string;
   data: BackendErrorData[];

@@ -5,6 +5,7 @@ import type { AxiosError } from 'axios';
 import type { LoginFormInputs } from '@/validators/authValidator';
 import { loginApi } from '@/apis/auth';
 import { setAuthenticated } from '@/store/authSlice';
+import type { BackendErrorResponse } from '@/utils/errorHandler';
 
 interface LoginResponse {
   status: boolean;
@@ -14,7 +15,7 @@ interface LoginResponse {
 export const useLogin = () => {
   const dispatch = useDispatch();
 
-  return useMutation<LoginResponse, AxiosError, LoginFormInputs>({
+  return useMutation<LoginResponse, AxiosError<BackendErrorResponse>, LoginFormInputs>({
     mutationFn: loginApi,
     onSuccess: (data) => {
       if (data.status) {

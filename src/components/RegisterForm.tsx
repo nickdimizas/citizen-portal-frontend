@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Box, Button, Link, Paper, TextField, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import type { AxiosError } from 'axios';
 
 import { registerValidator, type RegisterFormInputs } from '@/validators/authValidator';
 import { useRegister } from '@/hooks/useRegister';
@@ -71,7 +70,7 @@ const RegisterForm = () => {
           setErrorMessage(res.message);
         }
       },
-      onError: (error: AxiosError) => {
+      onError: (error) => {
         setErrorMessage(extractErrorMessage(error));
       },
     });

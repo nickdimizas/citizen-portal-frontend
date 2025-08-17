@@ -3,6 +3,7 @@ import type { AxiosError } from 'axios';
 
 import type { RegisterFormInputs } from '@/validators/authValidator';
 import { registerApi } from '@/apis/auth';
+import type { BackendErrorResponse } from '@/utils/errorHandler';
 
 interface RegisterResponse {
   status: boolean;
@@ -11,7 +12,7 @@ interface RegisterResponse {
 }
 
 export const useRegister = () => {
-  return useMutation<RegisterResponse, AxiosError, RegisterFormInputs>({
+  return useMutation<RegisterResponse, AxiosError<BackendErrorResponse>, RegisterFormInputs>({
     mutationFn: registerApi,
   });
 };

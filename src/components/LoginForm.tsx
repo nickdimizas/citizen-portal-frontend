@@ -14,7 +14,6 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import type { AxiosError } from 'axios';
 
 import { loginValidator, type LoginFormInputs } from '@/validators/authValidator';
 import { useLogin } from '@/hooks/useLogin';
@@ -37,6 +36,7 @@ const LoginForm = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginValidator),
     defaultValues: {
@@ -51,13 +51,13 @@ const LoginForm = () => {
     loginMutation.mutate(data, {
       onSuccess: (res) => {
         if (res.status) {
-          setSnackbar({ open: true, message: res.message, severity: 'success' });
-          navigate('/users/me');
+          reset();
+          navigate('/users/me', { replace: true });
         } else {
           setSnackbar({ open: true, message: res.message, severity: 'error' });
         }
       },
-      onError: (error: AxiosError) => {
+      onError: (error) => {
         setSnackbar({ open: true, message: extractErrorMessage(error), severity: 'error' });
       },
     });
