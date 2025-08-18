@@ -23,7 +23,7 @@ const DashboardLayout = ({ headerComponent, sidebarComponent }: DashboardLayoutP
       <Header component={headerComponent} />
       <Box sx={{ display: 'flex', flex: 1 }}>
         <Sidebar component={sidebarComponent} />
-        <Box component="main" sx={{ flex: 1, p: 3, overflowY: 'auto' }}>
+        <Box component="main" sx={{ flex: 1, p: 3, mt: 2, overflowY: 'auto' }}>
           <Outlet />
         </Box>
       </Box>

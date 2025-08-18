@@ -1,10 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface Address {
-  street: string;
   city: string;
-  zip: string;
-  country: string;
+  street: string;
+  number: string;
+  postcode: string;
 }
 
 export interface IUser {

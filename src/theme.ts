@@ -6,11 +6,10 @@ const theme = createTheme({
       main: '#46686c', // Dark Teal
     },
     secondary: {
-      main: '#0c99a5', // Vibrant Turquoise
+      main: '#b7dce1', // Vibrant Turquoise
     },
     background: {
       default: '#f5f5f5', // general page background
-      paper: '#616150', // Muted Olive Grey
     },
     error: {
       main: '#8f3d22', // Deep Terracotta
@@ -20,7 +19,7 @@ const theme = createTheme({
     },
     text: {
       primary: '#333333',
-      secondary: '#616150', // reused here
+      secondary: '#f5f5f5', // reused here
     },
   },
 });
