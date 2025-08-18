@@ -7,7 +7,8 @@ import LoginPage from '@/pages/LoginPage';
 import theme from './theme';
 import RegisterPage from './pages/RegisterPage';
 import type { RootState } from './store/store';
-import UserProfilePage from './pages/UserProfilePage';
+import ProfilePage from './pages/ProfilePage';
+import DashboardLayout from './components/DashboardLayout';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -32,11 +33,19 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          {/* Protected routes */}
+          {/* Protected routes under /users */}
           <Route
-            path="/users/me"
-            element={<ProtectedRoute>{<UserProfilePage />}</ProtectedRoute>}
-          />
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* Nested routes rendered inside <Outlet /> of DashboardLayout */}
+            <Route path="me" element={<ProfilePage />} />
+            {/* Add more routes for other user pages or role-based dashboards */}
+          </Route>
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

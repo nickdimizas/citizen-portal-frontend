@@ -22,3 +22,6 @@ export const registerApi = async (data: RegisterFormInputs): Promise<RegisterRes
   const res = await axiosInstance.post<RegisterResponse>('/register', data);
   return res.data;
 };
+
+export const logoutApi = async (): Promise<void> =>
+  axiosInstance.post('/logout', { withCredentials: true });

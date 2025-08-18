@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import type { AxiosError } from 'axios';
 
 import type { LoginFormInputs } from '@/validators/authValidator';
-import { loginApi } from '@/apis/auth';
+import { loginApi } from '@/apis/authApi';
 import { setAuthenticated } from '@/store/authSlice';
 import type { BackendErrorResponse } from '@/utils/errorHandler';
 

@@ -8,6 +8,7 @@ import {
   InputAdornment,
   Snackbar,
   Alert,
+  Paper,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -81,14 +82,28 @@ const LoginForm = () => {
         component="form"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <Paper
+          elevation={1}
+          sx={{
+            bgcolor: 'primary.main',
+            p: 1,
+            textAlign: 'center',
+            borderRadius: 1,
+          }}
+        >
+          <Typography variant="h5" color="background.default">
+            Your Citizen Portal
+          </Typography>
+        </Paper>
+
         <Typography
-          variant="h5"
+          variant="h6"
           fontWeight="bold"
           textAlign="center"
           color="primary"
           sx={{ mb: 3 }}
         >
-          Sign In to Your Acccount
+          Sign in to your acccount
         </Typography>
 
         {/* Username or Email Field */}
