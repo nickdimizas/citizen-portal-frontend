@@ -8,7 +8,7 @@ import { getMyProfileApi } from '@/apis/userApi';
 export const useUserProfile = () => {
   const dispatch = useDispatch();
 
-  const { data, error, isLoading } = useQuery<Partial<IUser>>({
+  const { data, error, isLoading } = useQuery<IUser>({
     queryKey: ['userProfile'],
     queryFn: getMyProfileApi,
   });

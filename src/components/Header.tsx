@@ -36,7 +36,7 @@ const Header = ({ component = 'header' }: HeaderProps) => {
       </Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Typography variant="body1">{username}</Typography>
+        <Typography variant="body1">Welcome {username}</Typography>
         <Button variant="contained" color="secondary" onClick={handleLogout} size="small">
           Logout
         </Button>

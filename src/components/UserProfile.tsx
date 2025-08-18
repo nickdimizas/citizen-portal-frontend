@@ -4,7 +4,7 @@ const UserProfile = () => {
   return (
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: 'background.default',
         p: 4,
         borderRadius: 2,
         minHeight: '400px',

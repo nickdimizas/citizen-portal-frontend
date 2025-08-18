@@ -23,7 +23,7 @@ export interface IUser {
 }
 
 interface UserState {
-  userData: Partial<IUser> | null;
+  userData: IUser | null;
 }
 
 const initialState: UserState = {
@@ -34,10 +34,10 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<Partial<IUser>>) => {
+    setUser: (state, action: PayloadAction<IUser>) => {
       state.userData = action.payload;
     },
-    updateUser: (state, action: PayloadAction<Partial<IUser>>) => {
+    updateUser: (state, action: PayloadAction<IUser>) => {
       if (state.userData) {
         state.userData = { ...state.userData, ...action.payload };
       }

@@ -10,7 +10,7 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
       component={component}
       sx={{
         width: 200,
-        bgcolor: 'secondary.main',
+        bgcolor: 'background.default',
         height: '100vh',
         p: 2,
       }}
