@@ -17,10 +17,10 @@ const theme = createTheme({
     warning: {
       main: '#7f4732', // Burnt Sienna — optional
     },
-    text: {
-      primary: '#333333',
-      secondary: '#f5f5f5', // reused here
-    },
+    // text: {
+    //   primary: '#333333',
+    //   secondary: '#f5f5f5', // reused here
+    // },
   },
 });
 

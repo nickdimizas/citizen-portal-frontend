@@ -1,8 +1,10 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Avatar } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 import { useSelector } from 'react-redux';
 
 import { useLogout } from '@/hooks/useLogout';
 import type { RootState } from '@/store/store';
+import logo from '@/assets/logo.jpg';
 
 interface HeaderProps {
   component?: React.ElementType;
@@ -20,6 +22,9 @@ const Header = ({ component = 'header' }: HeaderProps) => {
     <Box
       component={component}
       sx={{
+        height: '8vh',
+        minHeight: '70px',
+        maxHeight: '120px',
         width: '100%',
         display: 'flex',
         justifyContent: 'space-between',
@@ -31,13 +36,42 @@ const Header = ({ component = 'header' }: HeaderProps) => {
         boxShadow: 2,
       }}
     >
-      <Typography variant="h6" fontWeight="bold">
-        Your Citizen Portal
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box
+          component="img"
+          src={logo}
+          alt="Logo"
+          sx={{
+            width: 80,
+            height: 'auto',
+            objectFit: 'contain',
+            boxShadow: 4,
+          }}
+        />
+
+        <Typography variant="h6" fontWeight="bold">
+          Citizen Portal
+        </Typography>
+      </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Typography variant="body1">Welcome {username}</Typography>
-        <Button variant="contained" color="secondary" onClick={handleLogout} size="small">
+        <Typography
+          variant="body1"
+          sx={{
+            bgcolor: 'warning.main',
+            color: 'background.default',
+            px: 2,
+            py: 1,
+            borderRadius: 2,
+            boxShadow: 2,
+          }}
+        >
+          Welcome {username}
+        </Typography>
+        <Avatar sx={{ bgcolor: 'secondary.main' }}>
+          <PersonIcon />
+        </Avatar>
+        <Button variant="contained" color="secondary" onClick={handleLogout}>
           Logout
         </Button>
       </Box>

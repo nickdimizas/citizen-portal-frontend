@@ -1,4 +1,4 @@
-import { Box, Card, Typography, Avatar } from '@mui/material';
+import { Box, Card, Typography, Avatar, Paper } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { useSelector } from 'react-redux';
 
@@ -13,7 +13,7 @@ const UserProfile = () => {
     <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
       <Card sx={{ p: 0, maxWidth: 600, width: '100%' }}>
         {/* Header with background, icon, and shadow */}
-        <Box
+        <Paper
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -21,7 +21,8 @@ const UserProfile = () => {
             px: 3,
             py: 2,
             bgcolor: 'primary.main',
-            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            boxShadow: '3',
+            borderRadius: '8px 8px 0 0',
           }}
         >
           <Avatar sx={{ bgcolor: 'secondary.main' }}>
@@ -36,7 +37,7 @@ const UserProfile = () => {
           >
             My Profile
           </Typography>
-        </Box>
+        </Paper>
 
         {/* Card Content */}
         <Box sx={{ p: 3 }}>

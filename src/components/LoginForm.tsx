@@ -16,6 +16,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+import logo from '@/assets/logo.jpg';
 import { loginValidator, type LoginFormInputs } from '@/validators/userValidator';
 import { useLogin } from '@/hooks/useLogin';
 import { extractErrorMessage } from '@/utils/errorHandler';
@@ -71,13 +72,11 @@ const LoginForm = () => {
           width: 450,
           mx: 'auto',
           mt: 10,
-          p: 4,
           bgcolor: 'background.default',
           borderRadius: 2,
           boxShadow: 4,
           display: 'flex',
           flexDirection: 'column',
-          gap: 2,
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -86,83 +85,102 @@ const LoginForm = () => {
           elevation={1}
           sx={{
             bgcolor: 'primary.main',
-            p: 1,
-            textAlign: 'center',
-            borderRadius: 1,
+            p: 3,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 3,
+            borderRadius: '8px 8px 0 0',
+            boxShadow: 4,
           }}
         >
-          <Typography variant="h5" color="background.default">
-            Your Citizen Portal
+          {/* Logo */}
+          <Box
+            component="img"
+            src={logo}
+            alt="Logo"
+            sx={{
+              width: 80,
+              height: 'auto',
+              objectFit: 'contain',
+            }}
+          />
+
+          {/* Header text */}
+          <Typography variant="h6" fontWeight="bold" color="background.default">
+            Welcome to Citizen Portal
           </Typography>
         </Paper>
 
-        <Typography
-          variant="h6"
-          fontWeight="bold"
-          textAlign="center"
-          color="primary"
-          sx={{ mb: 3 }}
-        >
-          Sign in to your acccount
-        </Typography>
+        {/* Content section (with padding) */}
+        <Box sx={{ p: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            textAlign="center"
+            color="primary"
+            sx={{ mb: 3 }}
+          >
+            Sign in to your account
+          </Typography>
 
-        {/* Username or Email Field */}
-        <Controller
-          name="usernameOrEmail"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Username or Email*"
-              variant="outlined"
-              fullWidth
-              error={!!errors.usernameOrEmail}
-              helperText={errors.usernameOrEmail?.message}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
+          {/* Username or Email Field */}
+          <Controller
+            name="usernameOrEmail"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Username or Email*"
+                placeholder="Enter your username or email"
+                fullWidth
+                error={!!errors.usernameOrEmail}
+                helperText={errors.usernameOrEmail?.message}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
 
-        {/* Password Field */}
-        <Controller
-          name="password"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Password*"
-              type="password"
-              variant="outlined"
-              fullWidth
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
+          {/* Password Field */}
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Password*"
+                placeholder="Enter your password"
+                type="password"
+                fullWidth
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
 
-        <Button type="submit" variant="contained" color="primary" fullWidth>
-          {loginMutation.isPending ? 'Logging in...' : 'Login'}
-        </Button>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            {loginMutation.isPending ? 'Logging in...' : 'Login'}
+          </Button>
 
-        <Typography variant="body2" textAlign="center">
-          Don&apos;t have an account?{' '}
-          <Link href="/register" underline="hover" color="secondary">
-            Register
-          </Link>
-        </Typography>
+          <Typography variant="body2" textAlign="center">
+            Don&apos;t have an account?{' '}
+            <Link href="/register" underline="hover" color="primary">
+              Register
+            </Link>
+          </Typography>
+        </Box>
       </Box>
 
       <Snackbar

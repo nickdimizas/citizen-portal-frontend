@@ -8,6 +8,7 @@ import { registerValidator, type RegisterFormInputs } from '@/validators/userVal
 import { useRegister } from '@/hooks/useRegister';
 import { extractErrorMessage } from '@/utils/errorHandler';
 import theme from '@/theme';
+import logo from '@/assets/logo.jpg';
 
 const RegisterForm = () => {
   const [successMessage, setSuccessMessage] = useState<React.ReactNode>(null);
@@ -82,7 +83,7 @@ const RegisterForm = () => {
         width: 800,
         mx: 'auto',
         mt: 5,
-        p: 4,
+        pb: 5,
         bgcolor: theme.palette.background.default,
         borderRadius: 2,
         boxShadow: 4,
@@ -91,23 +92,46 @@ const RegisterForm = () => {
         gap: 3,
       }}
     >
-      {/* Heading */}
-      <Typography
-        variant="h4"
-        fontWeight="bold"
-        color={theme.palette.primary.main}
-        textAlign="center"
+      {/* TOP PAPER BANNER with logo and welcome message */}
+      <Paper
+        elevation={3}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 3,
+          bgcolor: 'primary.main',
+          color: 'background.default',
+          p: 3,
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          boxShadow: 4,
+        }}
       >
-        Your Citizen Portal
-      </Typography>
+        {/* Logo */}
+        <Box
+          component="img"
+          src={logo}
+          alt="Logo"
+          sx={{
+            width: 80,
+            height: 'auto',
+            objectFit: 'contain',
+          }}
+        />
+        <Typography variant="h6" fontWeight="bold">
+          Welcome to Citizen Portal
+        </Typography>
+      </Paper>
 
       {/* Online Registration Banner */}
       <Paper
         elevation={1}
         sx={{
-          bgcolor: theme.palette.primary.main,
+          bgcolor: 'primary.main',
+          mx: 6,
           p: 1,
           textAlign: 'center',
+          boxShadow: 2,
         }}
       >
         <Typography variant="subtitle1" color={theme.palette.background.default}>
@@ -141,7 +165,9 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Username"
+                label="Username*"
+                placeholder="Enter your username"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.username}
                 helperText={errors.username?.message}
@@ -156,7 +182,9 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Email"
+                label="Email*"
+                placeholder="Enter your email"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.email}
                 helperText={errors.email?.message}
@@ -173,7 +201,9 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="First Name"
+                label="First Name*"
+                placeholder="Enter your first name"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.firstname}
                 helperText={errors.firstname?.message}
@@ -188,7 +218,9 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Last Name"
+                label="Last Name*"
+                placeholder="Enter your last name"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.lastname}
                 helperText={errors.lastname?.message}
@@ -205,42 +237,12 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="City"
+                label="City*"
+                placeholder="Enter your city"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.address?.city}
                 helperText={errors.address?.city?.message}
-              />
-            )}
-          />
-
-          {/* Address: Street */}
-          <Controller
-            name="address.street"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Street"
-                fullWidth
-                error={!!errors.address?.street}
-                helperText={errors.address?.street?.message}
-              />
-            )}
-          />
-        </Box>
-
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          {/* Address: Number */}
-          <Controller
-            name="address.number"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Number"
-                fullWidth
-                error={!!errors.address?.number}
-                helperText={errors.address?.number?.message}
               />
             )}
           />
@@ -252,10 +254,48 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Postcode"
+                label="Postcode*"
+                placeholder="Enter your postcode"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.address?.postcode}
                 helperText={errors.address?.postcode?.message}
+              />
+            )}
+          />
+        </Box>
+
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          {/* Address: Street */}
+          <Controller
+            name="address.street"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Street*"
+                placeholder="Enter your street"
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                error={!!errors.address?.street}
+                helperText={errors.address?.street?.message}
+              />
+            )}
+          />
+
+          {/* Address: Number */}
+          <Controller
+            name="address.number"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Number*"
+                placeholder="Enter your street number"
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                error={!!errors.address?.number}
+                helperText={errors.address?.number?.message}
               />
             )}
           />
@@ -269,7 +309,9 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Phone Number"
+                label="Phone Number*"
+                placeholder="Enter your phone number"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.phoneNumber}
                 helperText={errors.phoneNumber?.message}
@@ -284,7 +326,9 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="SSN"
+                label="SSN*"
+                placeholder="Enter your ssn"
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 error={!!errors.ssn}
                 helperText={errors.ssn?.message}
@@ -301,7 +345,9 @@ const RegisterForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Password"
+                label="Password*"
+                placeholder="Enter your password"
+                InputLabelProps={{ shrink: true }}
                 type="password"
                 fullWidth
                 error={!!errors.password}
@@ -317,8 +363,6 @@ const RegisterForm = () => {
             type="submit"
             variant="contained"
             color="primary"
-            fullWidth
-            sx={{ mt: 2, width: 300 }}
             disabled={registerMutation.isPending}
           >
             {registerMutation.isPending ? 'Registering...' : 'Register'}
