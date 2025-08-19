@@ -69,7 +69,7 @@ const LoginForm = () => {
     <>
       <Box
         sx={{
-          width: 450,
+          width: 550,
           mx: 'auto',
           mt: 10,
           bgcolor: 'background.default',
@@ -112,13 +112,13 @@ const LoginForm = () => {
         </Paper>
 
         {/* Content section (with padding) */}
-        <Box sx={{ p: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ p: 3, px: 4, display: 'flex', flexDirection: 'column', gap: 3 }}>
           <Typography
             variant="h6"
             fontWeight="bold"
             textAlign="center"
             color="primary"
-            sx={{ mb: 3 }}
+            sx={{ mb: 2 }}
           >
             Sign in to your account
           </Typography>
@@ -170,9 +170,11 @@ const LoginForm = () => {
             )}
           />
 
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            {loginMutation.isPending ? 'Logging in...' : 'Login'}
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Button type="submit" variant="contained" color="primary" size="large">
+              {loginMutation.isPending ? 'Logging in...' : 'Login'}
+            </Button>
+          </Box>
 
           <Typography variant="body2" textAlign="center">
             Don&apos;t have an account?{' '}
@@ -185,7 +187,7 @@ const LoginForm = () => {
 
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={4000}
+        autoHideDuration={5000}
         onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >

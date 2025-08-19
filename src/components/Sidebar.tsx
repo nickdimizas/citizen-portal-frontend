@@ -12,6 +12,10 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
     navigate('/users/me');
   };
 
+  const handleChangePasswordClick = () => {
+    navigate('/users/me/password');
+  };
+
   return (
     <Box
       component={component}
@@ -32,7 +36,12 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
       <Button variant="contained" color="secondary" size="small" onClick={handleProfileClick}>
         Profile
       </Button>
-      <Button variant="contained" color="secondary" size="small">
+      <Button
+        variant="contained"
+        color="secondary"
+        size="small"
+        onClick={handleChangePasswordClick}
+      >
         Change Password
       </Button>
     </Box>

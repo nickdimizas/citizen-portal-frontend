@@ -3,11 +3,11 @@ import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { setAuthenticated } from '@/store/authSlice';
-import { useUserProfile } from '@/hooks/useCurrentUser';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
-  const { isLoading, error, data } = useUserProfile();
+  const { isLoading, error, data } = useCurrentUser();
 
   useEffect(() => {
     if (data) {

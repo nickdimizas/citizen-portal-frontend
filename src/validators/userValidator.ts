@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 type RegisterFormInputs = z.infer<typeof registerValidator>;
 type LoginFormInputs = z.infer<typeof loginValidator>;
-type changePasswordValidator = z.infer<typeof changePasswordValidator>;
+type ChangePasswordFormInputs = z.infer<typeof changePasswordValidator>;
 
 const registerValidator = z
   .object({
@@ -135,5 +135,5 @@ const changePasswordValidator = z
   })
   .strict();
 
-export type { RegisterFormInputs, LoginFormInputs, changePasswordValidator };
-export { loginValidator, registerValidator };
+export type { RegisterFormInputs, LoginFormInputs, ChangePasswordFormInputs };
+export { loginValidator, registerValidator, changePasswordValidator };

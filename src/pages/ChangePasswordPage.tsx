@@ -1,8 +1,18 @@
+import { Box } from '@mui/material';
+
+import ChangePasswordForm from '@/components/ChangePasswordForm';
+
 const ChangePasswordPage = () => {
   return (
-    <>
-      <h1>Change Password</h1>
-    </>
+    <Box
+      sx={{
+        mt: 8,
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <ChangePasswordForm />
+    </Box>
   );
 };
 

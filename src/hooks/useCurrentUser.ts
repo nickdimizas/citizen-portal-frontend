@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { setUser, type IUser } from '@/store/userSlice';
 import { getMyProfileApi } from '@/apis/userApi';
 
-export const useUserProfile = () => {
+export const useCurrentUser = () => {
   const dispatch = useDispatch();
 
   const { data, error, isLoading } = useQuery<IUser>({
