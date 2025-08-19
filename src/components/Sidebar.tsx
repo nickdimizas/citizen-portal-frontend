@@ -25,11 +25,15 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
         boxShadow: 3,
         display: 'flex',
         flexDirection: 'column',
+        gap: 1,
       }}
     >
       {/* Menu Items */}
       <Button variant="contained" color="secondary" size="small" onClick={handleProfileClick}>
         Profile
+      </Button>
+      <Button variant="contained" color="secondary" size="small">
+        Change Password
       </Button>
     </Box>
   );

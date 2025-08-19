@@ -16,7 +16,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import { loginValidator, type LoginFormInputs } from '@/validators/authValidator';
+import { loginValidator, type LoginFormInputs } from '@/validators/userValidator';
 import { useLogin } from '@/hooks/useLogin';
 import { extractErrorMessage } from '@/utils/errorHandler';
 

@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Box, Button, Link, Paper, TextField, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { registerValidator, type RegisterFormInputs } from '@/validators/authValidator';
+import { registerValidator, type RegisterFormInputs } from '@/validators/userValidator';
 import { useRegister } from '@/hooks/useRegister';
 import { extractErrorMessage } from '@/utils/errorHandler';
 import theme from '@/theme';

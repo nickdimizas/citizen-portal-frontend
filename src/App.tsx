@@ -1,24 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import { useSelector } from 'react-redux';
 
 import LoginPage from '@/pages/LoginPage';
-
-import theme from './theme';
-import RegisterPage from './pages/RegisterPage';
-import type { RootState } from './store/store';
-import ProfilePage from './pages/ProfilePage';
-import DashboardLayout from './components/DashboardLayout';
-
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <>{children}</>;
-};
+import theme from '@/theme';
+import ChangePasswordPage from '@/pages/ChangePasswordPage';
+import RegisterPage from '@/pages/RegisterPage';
+import ProfilePage from '@/pages/ProfilePage';
+import DashboardLayout from '@/components/DashboardLayout';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 const App = () => {
   return (
@@ -44,7 +33,7 @@ const App = () => {
           >
             {/* Nested routes rendered inside <Outlet /> of DashboardLayout */}
             <Route path="me" element={<ProfilePage />} />
-            {/* Add more routes for other user pages or role-based dashboards */}
+            <Route path="me/password" element={<ChangePasswordPage />} />
           </Route>
 
           {/* Fallback */}

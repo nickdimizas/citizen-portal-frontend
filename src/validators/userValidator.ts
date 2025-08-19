@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+type RegisterFormInputs = z.infer<typeof registerValidator>;
+type LoginFormInputs = z.infer<typeof loginValidator>;
+type changePasswordValidator = z.infer<typeof changePasswordValidator>;
+
 const registerValidator = z
   .object({
     username: z
@@ -110,6 +114,26 @@ const loginValidator = z
   })
   .strict();
 
-export type RegisterFormInputs = z.infer<typeof registerValidator>;
-export type LoginFormInputs = z.infer<typeof loginValidator>;
+const changePasswordValidator = z
+  .object({
+    newPassword: z
+      .string()
+      .min(1, { message: 'New Password is required' })
+      .transform((str) => str.trim())
+      .refine((val) => val.length >= 8, { message: 'Password must be at least 8 characters' })
+      .refine((val) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])/.test(val), {
+        message:
+          'Password must contain at least one letter, one number, and one special character (!@#$%^&*)',
+      }),
+    currentPassword: z
+      .string()
+      .min(1, { message: 'Current Password is required' })
+      .transform((str) => str.trim())
+      .refine((val) => val.length >= 8, {
+        message: 'Current password must be at least 8 characters',
+      }),
+  })
+  .strict();
+
+export type { RegisterFormInputs, LoginFormInputs, changePasswordValidator };
 export { loginValidator, registerValidator };
