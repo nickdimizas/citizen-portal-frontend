@@ -1,22 +1,36 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
   component?: React.ElementType;
 }
 
 const Sidebar = ({ component = 'aside' }: SidebarProps) => {
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    navigate('/users/me');
+  };
+
   return (
     <Box
       component={component}
       sx={{
-        width: 200,
-        bgcolor: 'backgound.default',
-        height: '100vh',
+        width: 250,
+        bgcolor: 'primary.main',
+        height: '100%',
         p: 2,
+        m: 2,
+        borderRadius: 2,
+        boxShadow: 3,
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      {/* Menu items will go here */}
-      Sidebar
+      {/* Menu Items */}
+      <Button variant="contained" color="secondary" size="small" onClick={handleProfileClick}>
+        Profile
+      </Button>
     </Box>
   );
 };
