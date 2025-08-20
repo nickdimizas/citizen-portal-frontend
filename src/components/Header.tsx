@@ -58,7 +58,7 @@ const Header = ({ component = 'header' }: HeaderProps) => {
         <Typography
           variant="body1"
           sx={{
-            bgcolor: 'warning.main',
+            bgcolor: 'background.paper',
             color: 'background.default',
             px: 2,
             py: 1,

@@ -10,6 +10,7 @@ const theme = createTheme({
     },
     background: {
       default: '#f5f5f5', // general page background
+      paper: '#8f3d22',
     },
     error: {
       main: '#8f3d22', // Deep Terracotta
