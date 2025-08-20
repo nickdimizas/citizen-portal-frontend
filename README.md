@@ -11,9 +11,11 @@ This repository contains the **frontend** part of the Citizen Portal App.
 
 ### Run Locally
 
-1. Navigate to the frontend repo and install dependencies:
+1. Clone this repository and install dependencies:
 
    ```bash
+   git clone <frontend-repo-url>
+   cd <frontend-repo-folder>
    npm install
    ```
 
@@ -23,8 +25,7 @@ This repository contains the **frontend** part of the Citizen Portal App.
    npm run dev
    ```
 
-3. Open your browser at:
-
+3. You can now access the frontend at:
    ```
    http://localhost:5173
    ```
@@ -33,24 +34,35 @@ This repository contains the **frontend** part of the Citizen Portal App.
 
 ## Production Mode (Independent)
 
-⚠️ Production mode requires Docker.
+> ⚠️ Production mode requires **Docker**.
 
-### Build & Run with Docker
+1. Clone this repository and install dependencies:
 
-1. Build the production-ready Docker image:
+   ```bash
+   git clone <frontend-repo-url>
+   cd <frontend-repo-folder>
+   npm install
+   ```
+
+2. Build the project:
+
+   ```bash
+   npm run build
+   ```
+
+3. Build the production-ready Docker image:
 
    ```bash
    npm run build:docker
    ```
 
-2. Run the container:
+4. Run the container:
 
    ```bash
    npm run run:docker
    ```
 
-3. Access the frontend in your browser:
-
+5. You can now access the frontend at:
    ```
    http://localhost:5173 or http://localhost:8080
    ```
