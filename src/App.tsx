@@ -1,23 +1,47 @@
-function App() {
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+
+import LoginPage from '@/pages/LoginPage';
+import theme from '@/theme';
+import ChangePasswordPage from '@/pages/ChangePasswordPage';
+import RegisterPage from '@/pages/RegisterPage';
+import ProfilePage from '@/pages/ProfilePage';
+import DashboardLayout from '@/components/DashboardLayout';
+import ProtectedRoute from '@/components/ProtectedRoute';
+
+const App = () => {
   return (
-    <div
-      style={{
-        minHeight: '95vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <h1
-        style={{
-          fontSize: '3rem',
-          fontWeight: 'bold',
-        }}
-      >
-        Hello World!!!
-      </h1>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          {/* Redirect root to login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
+          {/* Public routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          {/* Protected routes under /users */}
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* Nested routes rendered inside <Outlet /> of DashboardLayout */}
+            <Route path="me" element={<ProfilePage />} />
+            <Route path="me/password" element={<ChangePasswordPage />} />
+          </Route>
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

@@ -46,12 +46,12 @@ export default tseslint.config([
         typescript: {
           // This tells eslint-import-resolver-typescript to use your tsconfig.json
           // to resolve paths and module exports.
-          project: './tsconfig.json',
+          project: './tsconfig.app.json',
         },
-        // Optionally, for Vite's internal aliases (like '@/'), you might need this:
-        vite: {
-          configPath: './vite.config.ts', // Points to your vite config
-        },
+        // // Optionally, for Vite's internal aliases (like '@/'), you might need this:
+        // vite: {
+        //   configPath: './vite.config.ts', // Points to your vite config
+        // },
       },
       react: {
         version: 'detect', // Automatically detect the React version
