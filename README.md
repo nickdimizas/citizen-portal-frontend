@@ -44,25 +44,13 @@ This repository contains the **frontend** part of the Citizen Portal App.
    npm install
    ```
 
-2. Build the project:
+2. Build the production-ready Docker image and run the container:
 
    ```bash
-   npm run build
+   npm run setup:docker
    ```
 
-3. Build the production-ready Docker image:
-
-   ```bash
-   npm run build:docker
-   ```
-
-4. Run the container:
-
-   ```bash
-   npm run run:docker
-   ```
-
-5. You can now access the frontend at:
+3. You can now access the frontend at:
    ```
    http://localhost:5173 or http://localhost:8080
    ```
