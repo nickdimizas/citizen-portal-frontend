@@ -65,7 +65,7 @@ const ChangePasswordForm = () => {
         sx={{
           width: 500,
           mx: 'auto',
-          bgcolor: 'background.paper',
+          bgcolor: 'background.default',
           borderRadius: 2,
           boxShadow: 3,
           display: 'flex',
@@ -144,9 +144,9 @@ const ChangePasswordForm = () => {
             <Button
               type="submit"
               variant="contained"
-              color="primary"
               size="small"
               disabled={changePasswordMutation.isPending}
+              sx={{ bgcolor: 'background.paper' }}
             >
               {changePasswordMutation.isPending ? 'Changing...' : 'Change Password'}
             </Button>

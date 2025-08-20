@@ -23,3 +23,8 @@ export const getMyProfileApi = async (): Promise<IUser> => {
   const res = await axiosInstance.get('/users/me');
   return res.data.data;
 };
+
+export const getAllUsersApi = async (): Promise<IUser[]> => {
+  const res = await axiosInstance.get('/users');
+  return res.data.data;
+};
