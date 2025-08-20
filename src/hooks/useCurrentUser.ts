@@ -2,7 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
-import { setUser, type IUser } from '@/store/userSlice';
+import { setUser } from '@/store/userSlice';
+import type { IUser } from '@/types/user';
 import { getMyProfileApi } from '@/apis/userApi';
 
 export const useCurrentUser = () => {
