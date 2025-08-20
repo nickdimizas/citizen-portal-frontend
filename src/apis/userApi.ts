@@ -12,6 +12,26 @@ export interface ChangePasswordResponse {
   message: string;
 }
 
+export interface GetUsersOptions {
+  roleFilter?: string[];
+  active?: boolean;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+  page?: number;
+  limit?: number;
+}
+
+export interface UserPaginationResult {
+  users: IUser[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    pages: number;
+  };
+}
+
 export const changePasswordApi = async (
   data: ChangePasswordData,
 ): Promise<ChangePasswordResponse> => {
@@ -24,7 +44,7 @@ export const getMyProfileApi = async (): Promise<IUser> => {
   return res.data.data;
 };
 
-export const getAllUsersApi = async (): Promise<IUser[]> => {
-  const res = await axiosInstance.get('/users');
-  return res.data.data;
+export const getAllUsersApi = async (options?: GetUsersOptions): Promise<UserPaginationResult> => {
+  const res = await axiosInstance.get('/users', { params: options });
+  return res.data.payload;
 };

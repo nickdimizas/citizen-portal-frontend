@@ -4,12 +4,7 @@ import type { AxiosError } from 'axios';
 import type { RegisterFormInputs } from '@/validators/userValidator';
 import { registerApi } from '@/apis/authApi';
 import type { BackendErrorResponse } from '@/utils/errorHandler';
-
-interface RegisterResponse {
-  status: boolean;
-  message: string;
-  data: string;
-}
+import type { RegisterResponse } from '@/types/api';
 
 export const useRegister = () => {
   return useMutation<RegisterResponse, AxiosError<BackendErrorResponse>, RegisterFormInputs>({

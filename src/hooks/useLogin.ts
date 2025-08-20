@@ -6,11 +6,7 @@ import type { LoginFormInputs } from '@/validators/userValidator';
 import { loginApi } from '@/apis/authApi';
 import { setAuthenticated } from '@/store/authSlice';
 import type { BackendErrorResponse } from '@/utils/errorHandler';
-
-interface LoginResponse {
-  status: boolean;
-  message: string;
-}
+import type { LoginResponse } from '@/types/api';
 
 export const useLogin = () => {
   const dispatch = useDispatch();

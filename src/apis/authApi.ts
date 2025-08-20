@@ -1,17 +1,7 @@
 import type { LoginFormInputs, RegisterFormInputs } from '@/validators/userValidator';
+import type { LoginResponse, RegisterResponse } from '@/types/api';
 
 import { axiosInstance } from './axiosInstance';
-
-interface LoginResponse {
-  status: boolean;
-  message: string;
-}
-
-interface RegisterResponse {
-  status: boolean;
-  message: string;
-  data: string;
-}
 
 export const loginApi = async (data: LoginFormInputs): Promise<LoginResponse> => {
   const res = await axiosInstance.post<LoginResponse>('/login', data);

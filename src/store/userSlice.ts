@@ -1,26 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export interface Address {
-  city: string;
-  street: string;
-  number: string;
-  postcode: string;
-}
-
-export interface IUser {
-  id: string;
-  username: string;
-  email: string;
-  role: 'admin' | 'employee' | 'citizen';
-  firstname: string;
-  lastname: string;
-  phoneNumber: string;
-  address: Address;
-  ssn: string;
-  active: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import type { IUser } from '@/types/user';
 
 interface UserState {
   userData: IUser | null;
