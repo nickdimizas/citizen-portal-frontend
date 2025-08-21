@@ -25,6 +25,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 
 const UsersTable = () => {
+  // Queries
   const { data, error, isLoading } = useUsers();
   const currentUser = useCurrentUser();
 
@@ -39,18 +40,30 @@ const UsersTable = () => {
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
   const [page, setPage] = useState(0);
 
-  // ✅ Handler for status filter
+  // Handlers
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
   const handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value as 'all' | 'active' | 'inactive';
     setStatusFilter(value);
   };
 
-  // ✅ Handler for role filter
   const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRoleFilter(e.target.value as UserRole | 'all');
   };
 
-  // Filtered users
+  const handleSort = (field: keyof IUser) => {
+    if (orderBy === field) {
+      setOrder(order === 'asc' ? 'desc' : 'asc');
+    } else {
+      setOrderBy(field);
+      setOrder('asc');
+    }
+  };
+
+  // Derived data
   const filteredUsers = useMemo(() => {
     if (!data) return [];
     return data.users.filter((user) => {
@@ -68,7 +81,6 @@ const UsersTable = () => {
     });
   }, [data, search, roleFilter, statusFilter, currentUser.data?.role]);
 
-  // Sorted users
   const sortedUsers = useMemo(() => {
     if (!orderBy) return filteredUsers;
     return [...filteredUsers].sort((a, b) => {
@@ -88,23 +100,11 @@ const UsersTable = () => {
     });
   }, [filteredUsers, orderBy, order]);
 
-  // Pagination slice
   const paginatedUsers = useMemo(() => {
     const start = page * rowsPerPage;
     return sortedUsers.slice(start, start + rowsPerPage);
   }, [sortedUsers, page, rowsPerPage]);
 
-  // Handle sort
-  const handleSort = (field: keyof IUser) => {
-    if (orderBy === field) {
-      setOrder(order === 'asc' ? 'desc' : 'asc');
-    } else {
-      setOrderBy(field);
-      setOrder('asc');
-    }
-  };
-
-  // ✅ Render UI
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" p={3}>
@@ -113,12 +113,12 @@ const UsersTable = () => {
     );
   }
 
-  // ✅ Error handling
+  // Error handling
   if (error) {
     const typedError = error as AxiosError<BackendErrorResponse>;
     const message = extractErrorMessage(typedError);
 
-    // ✅ Special handling for forbidden access
+    // Special handling for forbidden access
     if (typedError.response?.status === 403 || message.toLowerCase().includes('forbidden')) {
       return (
         <Typography color="error" align="center" p={3}>
@@ -136,17 +136,14 @@ const UsersTable = () => {
 
   return (
     <Box width={1} height={790} display="flex" flexDirection="column">
-      {/* Filters */}
       <Box display="flex" justifyContent="space-between" mb={2}>
-        {/* Left: search */}
         <TextField
           label="Search"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleSearchChange}
           sx={{ flex: 1, maxWidth: 300 }}
         />
 
-        {/* Right: role + status */}
         <Box display="flex" gap={2}>
           {currentUser.data?.role === 'admin' && (
             <TextField
@@ -155,8 +152,17 @@ const UsersTable = () => {
               value={roleFilter}
               onChange={handleRoleChange}
               sx={{ minWidth: 150 }}
-              SelectProps={{
-                MenuProps: { PaperProps: { style: { maxHeight: 300 } } },
+              slotProps={{
+                select: {
+                  MenuProps: {
+                    PaperProps: {
+                      sx: {
+                        maxHeight: 300,
+                        bgcolor: 'background.default',
+                      },
+                    },
+                  },
+                },
               }}
             >
               {allRoles.map((role) => (
@@ -173,9 +179,16 @@ const UsersTable = () => {
             value={statusFilter}
             onChange={handleStatusChange}
             sx={{ minWidth: 150 }}
-            SelectProps={{
-              MenuProps: {
-                PaperProps: { style: { maxHeight: 300 } },
+            slotProps={{
+              select: {
+                MenuProps: {
+                  PaperProps: {
+                    sx: {
+                      maxHeight: 300,
+                      bgcolor: 'background.default',
+                    },
+                  },
+                },
               },
             }}
           >
@@ -190,7 +203,7 @@ const UsersTable = () => {
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: 'primary.main' }}>
-              {data && // ✅ Only map headers if data exists
+              {data &&
                 [
                   'Username',
                   'First Name',
@@ -207,7 +220,7 @@ const UsersTable = () => {
                     lastname: 'lastname',
                     email: 'email',
                     role: 'role',
-                    status: 'active', // note: maps to boolean 'active'
+                    status: 'active',
                     createdat: 'createdAt',
                   };
                   const key = keyMap[header.toLowerCase().replace(' ', '')];
@@ -264,7 +277,6 @@ const UsersTable = () => {
         </Table>
       </TableContainer>
 
-      {/* Pagination */}
       <TablePagination
         component="div"
         count={sortedUsers.length}
