@@ -9,7 +9,7 @@ interface IUser {
   id: string;
   username: string;
   email: string;
-  role: 'admin' | 'employee' | 'citizen';
+  role: UserRole;
   firstname: string;
   lastname: string;
   phoneNumber: string;

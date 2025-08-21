@@ -18,6 +18,7 @@ import { useState, useMemo } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import type { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import { useUsers } from '@/hooks/useGetUsers';
 import type { IUser, UserRole } from '@/types/user';
@@ -25,6 +26,8 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 
 const UsersTable = () => {
+  const navigate = useNavigate();
+
   // Queries
   const { data, error, isLoading } = useUsers();
   const currentUser = useCurrentUser();
@@ -264,7 +267,7 @@ const UsersTable = () => {
                   })}
                 </TableCell>
                 <TableCell>
-                  <IconButton>
+                  <IconButton onClick={() => navigate(`/users/${user.id}`)}>
                     <VisibilityIcon />
                   </IconButton>
                   <IconButton>
