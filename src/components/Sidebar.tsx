@@ -45,7 +45,7 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
       </Button>
       {(currentUser.data?.role === 'admin' || currentUser.data?.role === 'employee') && (
         <Button variant="contained" color="secondary" size="small" onClick={handleUsersClick}>
-          Users
+          Manage Users
         </Button>
       )}
       <Button

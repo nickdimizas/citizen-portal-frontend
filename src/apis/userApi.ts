@@ -20,6 +20,11 @@ export const getMyProfileApi = async (): Promise<IUser> => {
   return res.data.data;
 };
 
+export const getUserByIdApi = async (id: string): Promise<IUser> => {
+  const res = await axiosInstance.get(`/users/${id}`);
+  return res.data.data;
+};
+
 export const getAllUsersApi = async (options?: GetUsersOptions): Promise<UserPaginationResult> => {
   const res = await axiosInstance.get('/users', { params: options });
   return res.data.payload;

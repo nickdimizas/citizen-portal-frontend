@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { type ChangePasswordFormInputs } from '@/validators/userValidator';
 import { changePasswordApi } from '@/apis/userApi';
 import { type BackendErrorResponse } from '@/utils/errorHandler';
-import { type ChangePasswordResponse } from '@/apis/userApi';
+import { type ChangePasswordResponse } from '@/types/api';
 
 export const useChangePassword = () => {
   return useMutation<

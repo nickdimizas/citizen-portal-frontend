@@ -10,6 +10,7 @@ import DashboardLayout from '@/components/DashboardLayout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 import UsersTablePage from './pages/UsersTablePage';
+import UserProfileByIdPage from './pages/UserProfileByIdPage';
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
             {/* Nested routes rendered inside <Outlet /> of DashboardLayout */}
             <Route path="me" element={<ProfilePage />} />
             <Route path="me/password" element={<ChangePasswordPage />} />
+            <Route path=":id" element={<UserProfileByIdPage />} />
           </Route>
 
           {/* Fallback */}
