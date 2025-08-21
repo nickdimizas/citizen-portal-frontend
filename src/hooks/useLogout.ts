@@ -15,7 +15,6 @@ export const useLogout = () => {
   return useMutation<void, AxiosError<BackendErrorResponse>>({
     mutationFn: logoutApi,
     onSuccess: () => {
-      // Update state and redirect
       dispatch(logout());
       dispatch(clearUser());
       navigate('/login');

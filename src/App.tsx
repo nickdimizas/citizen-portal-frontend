@@ -9,6 +9,8 @@ import ProfilePage from '@/pages/ProfilePage';
 import DashboardLayout from '@/components/DashboardLayout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
+import UsersTablePage from './pages/UsersTablePage';
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -31,6 +33,8 @@ const App = () => {
               </ProtectedRoute>
             }
           >
+            {/* default page under /users */}
+            <Route index element={<UsersTablePage />} />
             {/* Nested routes rendered inside <Outlet /> of DashboardLayout */}
             <Route path="me" element={<ProfilePage />} />
             <Route path="me/password" element={<ChangePasswordPage />} />

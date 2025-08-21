@@ -20,4 +20,6 @@ interface IUser {
   updatedAt: string;
 }
 
-export type { Address, IUser };
+type UserRole = 'admin' | 'employee' | 'citizen';
+
+export type { Address, IUser, UserRole };

@@ -1,12 +1,15 @@
 import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+
 interface SidebarProps {
   component?: React.ElementType;
 }
 
 const Sidebar = ({ component = 'aside' }: SidebarProps) => {
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
 
   const handleProfileClick = () => {
     navigate('/users/me');
@@ -14,6 +17,10 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
 
   const handleChangePasswordClick = () => {
     navigate('/users/me/password');
+  };
+
+  const handleUsersClick = () => {
+    navigate('/users');
   };
 
   return (
@@ -36,6 +43,11 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
       <Button variant="contained" color="secondary" size="small" onClick={handleProfileClick}>
         Profile
       </Button>
+      {(currentUser.data?.role === 'admin' || currentUser.data?.role === 'employee') && (
+        <Button variant="contained" color="secondary" size="small" onClick={handleUsersClick}>
+          Users
+        </Button>
+      )}
       <Button
         variant="contained"
         color="secondary"
