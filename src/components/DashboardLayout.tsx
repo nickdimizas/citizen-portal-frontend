@@ -19,11 +19,11 @@ const DashboardLayout = ({ headerComponent, sidebarComponent }: DashboardLayoutP
   if (error) return <p>Failed to load user</p>;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '95vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '95vh', overflow: 'hidden' }}>
       <Header component={headerComponent} />
-      <Box sx={{ display: 'flex', flex: 1 }}>
+      <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         <Sidebar component={sidebarComponent} />
-        <Box component="main" sx={{ flex: 1, p: 3, mt: 2, overflowY: 'auto' }}>
+        <Box component="main" sx={{ flex: 1, p: 2, mt: 1 }}>
           <Outlet />
         </Box>
       </Box>

@@ -54,7 +54,7 @@ const LoginForm = () => {
       onSuccess: (res) => {
         if (res.status) {
           reset();
-          navigate('/users/me', { replace: true });
+          navigate('/home', { replace: true });
         } else {
           setSnackbar({ open: true, message: res.message, severity: 'error' });
         }

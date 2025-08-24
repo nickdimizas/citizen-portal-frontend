@@ -11,6 +11,8 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 
 import UsersTablePage from './pages/UsersTablePage';
 import UserProfileByIdPage from './pages/UserProfileByIdPage';
+import HomePage from './pages/HomePage';
+import UpdateCurrentUserPage from './pages/UpdateCurrentUserPage';
 
 const App = () => {
   return (
@@ -25,21 +27,32 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          {/* Protected routes under /users */}
+          {/* Protected routes that share DashboardLayout */}
           <Route
-            path="/users"
             element={
               <ProtectedRoute>
                 <DashboardLayout />
               </ProtectedRoute>
             }
           >
-            {/* default page under /users */}
-            <Route index element={<UsersTablePage />} />
-            {/* Nested routes rendered inside <Outlet /> of DashboardLayout */}
-            <Route path="me" element={<ProfilePage />} />
-            <Route path="me/password" element={<ChangePasswordPage />} />
-            <Route path=":id" element={<UserProfileByIdPage />} />
+            {/* /home */}
+            <Route path="/home" element={<HomePage />} />
+
+            {/* /users */}
+            <Route path="/users">
+              {/* default page under /users */}
+              <Route index element={<UsersTablePage />} />
+
+              {/* nested under /users/me */}
+              <Route path="me">
+                <Route index element={<ProfilePage />} />
+                <Route path="password" element={<ChangePasswordPage />} />
+                <Route path="edit" element={<UpdateCurrentUserPage />} />
+              </Route>
+
+              {/* /users/:id */}
+              <Route path=":id" element={<UserProfileByIdPage />} />
+            </Route>
           </Route>
 
           {/* Fallback */}

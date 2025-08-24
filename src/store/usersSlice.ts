@@ -3,11 +3,11 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { IUser } from '@/types/user';
 
 interface UsersState {
-  users: IUser[];
+  usersData: IUser[];
 }
 
 const initialState: UsersState = {
-  users: [],
+  usersData: [],
 };
 
 const usersSlice = createSlice({
@@ -15,26 +15,26 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     setUsers: (state, action: PayloadAction<IUser[]>) => {
-      state.users = action.payload;
+      state.usersData = action.payload;
     },
-    addUser: (state, action: PayloadAction<IUser>) => {
-      state.users.push(action.payload);
+    addUsers: (state, action: PayloadAction<IUser>) => {
+      state.usersData.push(action.payload);
     },
-    updateUserById: (state, action: PayloadAction<IUser>) => {
-      const index = state.users.findIndex((u) => u.id === action.payload.id);
+    updateUsers: (state, action: PayloadAction<IUser>) => {
+      const index = state.usersData.findIndex((u) => u.id === action.payload.id);
       if (index !== -1) {
-        state.users[index] = { ...state.users[index], ...action.payload };
+        state.usersData[index] = { ...state.usersData[index], ...action.payload };
       }
     },
-    removeUserById: (state, action: PayloadAction<string>) => {
-      state.users = state.users.filter((u) => u.id !== action.payload);
+    removeUsers: (state, action: PayloadAction<string>) => {
+      state.usersData = state.usersData.filter((u) => u.id !== action.payload);
     },
     clearUsers: (state) => {
-      state.users = [];
+      state.usersData = [];
     },
   },
 });
 
-export const { setUsers, addUser, updateUserById, removeUserById, clearUsers } = usersSlice.actions;
+export const { setUsers, addUsers, updateUsers, removeUsers, clearUsers } = usersSlice.actions;
 
 export default usersSlice.reducer;

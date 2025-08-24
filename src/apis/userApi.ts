@@ -5,14 +5,15 @@ import type {
   UserPaginationResult,
 } from '@/types/api';
 import type { IUser } from '@/types/user';
+import type { UpdateUserFormInputs } from '@/validators/userValidator';
 
 import { axiosInstance } from './axiosInstance';
 
 export const changePasswordApi = async (
   data: ChangePasswordData,
 ): Promise<ChangePasswordResponse> => {
-  const response = await axiosInstance.patch('/users/me/password', data);
-  return response.data;
+  const res = await axiosInstance.patch('/users/me/password', data);
+  return res.data;
 };
 
 export const getMyProfileApi = async (): Promise<IUser> => {
@@ -28,4 +29,10 @@ export const getUserByIdApi = async (id: string): Promise<IUser> => {
 export const getAllUsersApi = async (options?: GetUsersOptions): Promise<UserPaginationResult> => {
   const res = await axiosInstance.get('/users', { params: options });
   return res.data.payload;
+};
+
+export const updateUserApi = async (payload: UpdateUserFormInputs, id?: string): Promise<IUser> => {
+  const url = id ? `/users/${id}` : '/users/me';
+  const res = await axiosInstance.patch(url, payload);
+  return res.data.data;
 };

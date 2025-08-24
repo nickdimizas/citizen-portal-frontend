@@ -21,12 +21,13 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import UpdateIcon from '@mui/icons-material/Update';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useUserById } from '@/hooks/useUserById';
+import { useGetUserById } from '@/hooks/useGetUserById';
 
 const UserProfileById = () => {
   const { id } = useParams();
+  console.log('Param id:', id);
   const { data: currentUser } = useCurrentUser();
-  const { data: user, isLoading, error } = useUserById(id!);
+  const { data: user, isLoading, error } = useGetUserById(id!);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Failed to load user</div>;

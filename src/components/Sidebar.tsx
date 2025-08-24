@@ -11,6 +11,10 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
   const navigate = useNavigate();
   const currentUser = useCurrentUser();
 
+  const handleHomeClick = () => {
+    navigate('/home');
+  };
+
   const handleProfileClick = () => {
     navigate('/users/me');
   };
@@ -29,7 +33,6 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
       sx={{
         width: 250,
         bgcolor: 'primary.main',
-        height: '100%',
         p: 2,
         m: 2,
         borderRadius: 2,
@@ -40,6 +43,9 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
       }}
     >
       {/* Menu Items */}
+      <Button variant="contained" color="secondary" size="small" onClick={handleHomeClick}>
+        Home
+      </Button>
       <Button variant="contained" color="secondary" size="small" onClick={handleProfileClick}>
         Profile
       </Button>

@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
+  Button,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
@@ -18,16 +19,22 @@ import EventIcon from '@mui/icons-material/Event';
 import PhoneIcon from '@mui/icons-material/Phone';
 import UpdateIcon from '@mui/icons-material/Update';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import type { RootState } from '@/store/store';
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user.userData);
 
   if (!user) return null;
 
+  const handleUpdateClick = () => {
+    navigate('/users/me/edit');
+  };
+
   return (
-    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+    <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
       <Card sx={{ maxWidth: 600, width: '100%', boxShadow: 3, borderRadius: 2 }}>
         {/* Header */}
         <Paper
@@ -37,7 +44,7 @@ const UserProfile = () => {
             justifyContent: 'start',
             gap: 2,
             px: 3,
-            py: 3,
+            py: 1,
             bgcolor: 'primary.main',
             borderRadius: '8px 8px 0 0',
           }}
@@ -180,6 +187,11 @@ const UserProfile = () => {
             />
           </ListItem>
         </List>
+        <Box display="flex" justifyContent="flex-end" p={2} bgcolor="background.default">
+          <Button variant="contained" color="secondary" onClick={handleUpdateClick}>
+            Update
+          </Button>
+        </Box>
       </Card>
     </Box>
   );

@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 type RegisterFormInputs = z.infer<typeof registerValidator>;
 type LoginFormInputs = z.infer<typeof loginValidator>;
+type UpdateUserFormInputs = z.infer<typeof updateUserValidator>;
 type ChangePasswordFormInputs = z.infer<typeof changePasswordValidator>;
 
 const registerValidator = z
@@ -114,6 +115,73 @@ const loginValidator = z
   })
   .strict();
 
+const updateUserValidator = z
+  .object({
+    username: z
+      .string()
+      .transform((str) => str.trim())
+      .refine((val) => val.length >= 2, { message: 'Username must be at least 2 characters' })
+      .refine((val) => val.length <= 20, { message: 'Username must be at most 20 characters' })
+      .optional(),
+    email: z
+      .string()
+      .transform((str) => str.trim())
+      .refine(
+        (val) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})*$/.test(val),
+        { message: 'Please enter a valid email address in the format name@example.com' },
+      )
+      .optional(),
+    firstname: z
+      .string()
+      .transform((str) => str.trim())
+      .refine((val) => val.length >= 2, { message: 'Firstname must be at least 2 characters' })
+      .refine((val) => val.length <= 50, { message: 'Firstname must be at most 50 characters' })
+      .optional(),
+    lastname: z
+      .string()
+      .transform((str) => str.trim())
+      .refine((val) => val.length >= 2, { message: 'Lastname must be at least 2 characters' })
+      .refine((val) => val.length <= 50, { message: 'Lastname must be at most 50 characters' })
+      .optional(),
+    phoneNumber: z
+      .string()
+      .transform((str) => str.trim())
+      .refine((val) => /^\d{10}$/.test(val), { message: 'Phone number must be exactly 10 digits' })
+      .optional(),
+    address: z
+      .object({
+        city: z
+          .string()
+          .transform((str) => str.trim())
+          .refine((val) => val.length >= 2, { message: 'City must be at least 2 characters' })
+          .refine((val) => val.length <= 50, { message: 'City must be at most 50 characters' })
+          .optional(),
+        street: z
+          .string()
+          .transform((str) => str.trim())
+          .refine((val) => val.length <= 50, { message: 'Street must be at most 50 characters' })
+          .optional(),
+        number: z
+          .string()
+          .refine((val) => val.length <= 10, {
+            message: 'Street number must be at most 10 characters',
+          })
+          .optional(),
+        postcode: z
+          .string()
+          .transform((str) => str.trim())
+          .refine((val) => /^\d{5}$/.test(val), { message: 'Postcode must be exactly 5 digits' })
+          .optional(),
+      })
+      .optional(),
+    ssn: z
+      .string()
+      .transform((str) => str.trim())
+      .refine((val) => /^\d{9}$/.test(val), { message: 'SSN must be exactly 9 digits' })
+      .optional(),
+  })
+  .strict();
+
 const changePasswordValidator = z
   .object({
     newPassword: z
@@ -135,5 +203,5 @@ const changePasswordValidator = z
   })
   .strict();
 
-export type { RegisterFormInputs, LoginFormInputs, ChangePasswordFormInputs };
-export { loginValidator, registerValidator, changePasswordValidator };
+export type { RegisterFormInputs, LoginFormInputs, ChangePasswordFormInputs, UpdateUserFormInputs };
+export { loginValidator, registerValidator, changePasswordValidator, updateUserValidator };

@@ -4,7 +4,7 @@ import UserProfile from '../components/UserProfile';
 
 const ProfilePage = () => {
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
+    <Container maxWidth="md">
       <UserProfile />
     </Container>
   );
