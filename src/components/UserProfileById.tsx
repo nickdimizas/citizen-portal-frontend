@@ -254,19 +254,18 @@ const UserProfileById = () => {
           {/* Buttons */}
           <Box display="flex" justifyContent="space-around" p={2} bgcolor="background.default">
             {currentUser?.role === 'admin' && (
-              <>
-                <Button variant="contained" color="secondary">
-                  Change Role
-                </Button>
-                <Button
-                  variant="contained"
-                  color={user.active ? 'error' : 'success'}
-                  onClick={() => setConfirmDialogOpen(true)}
-                >
-                  {user.active ? 'Deactivate' : 'Activate'}
-                </Button>
-              </>
+              <Button variant="contained" color="secondary">
+                Change Role
+              </Button>
             )}
+            <Button
+              variant="contained"
+              color={user.active ? 'error' : 'success'}
+              onClick={() => setConfirmDialogOpen(true)}
+            >
+              {user.active ? 'Deactivate' : 'Activate'}
+            </Button>
+
             <Button
               variant="contained"
               color="secondary"
