@@ -14,7 +14,7 @@ import {
   TablePagination,
   Paper,
 } from '@mui/material';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import type { AxiosError } from 'axios';
@@ -27,9 +27,6 @@ import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHan
 
 const UsersTable = () => {
   const navigate = useNavigate();
-
-  // Queries
-  const { data, error, isLoading } = useGetUsers();
   const currentUser = useCurrentUser();
 
   const allRoles: (UserRole | 'all')[] = ['all', 'admin', 'employee', 'citizen'];
@@ -42,6 +39,16 @@ const UsersTable = () => {
   const [roleFilter, setRoleFilter] = useState<UserRole | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
   const [page, setPage] = useState(0);
+
+  const { data, error, isLoading, isFetching } = useGetUsers({
+    page: page + 1,
+    limit: rowsPerPage,
+    sortBy: orderBy ?? 'createdAt',
+    sortOrder: order,
+    roleFilter: roleFilter === 'all' ? undefined : [roleFilter],
+    active: statusFilter === 'all' ? undefined : statusFilter === 'active',
+    search,
+  });
 
   // Handlers
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,47 +81,7 @@ const UsersTable = () => {
     navigate(`/users/${id}`);
   };
 
-  // Derived data
-  const filteredUsers = useMemo(() => {
-    if (!data) return [];
-    return data.users.filter((user) => {
-      const searchMatch = Object.values(user)
-        .join(' ')
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const roleMatch =
-        currentUser.data?.role === 'admin'
-          ? roleFilter === 'all' || user.role === roleFilter
-          : user.role === 'citizen';
-      const statusMatch =
-        statusFilter === 'all' ? true : statusFilter === 'active' ? user.active : !user.active;
-      return searchMatch && roleMatch && statusMatch;
-    });
-  }, [data, search, roleFilter, statusFilter, currentUser.data?.role]);
-
-  const sortedUsers = useMemo(() => {
-    if (!orderBy) return filteredUsers;
-    return [...filteredUsers].sort((a, b) => {
-      const valA = a[orderBy];
-      const valB = b[orderBy];
-
-      if (typeof valA === 'string' && typeof valB === 'string') {
-        return order === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-      }
-      if (typeof valA === 'boolean' && typeof valB === 'boolean') {
-        return order === 'asc' ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
-      }
-      if (valA instanceof Date && valB instanceof Date) {
-        return order === 'asc' ? valA.getTime() - valB.getTime() : valB.getTime() - valA.getTime();
-      }
-      return 0;
-    });
-  }, [filteredUsers, orderBy, order]);
-
-  const paginatedUsers = useMemo(() => {
-    const start = page * rowsPerPage;
-    return sortedUsers.slice(start, start + rowsPerPage);
-  }, [sortedUsers, page, rowsPerPage]);
+  const paginatedUsers = data?.users ?? [];
 
   if (isLoading) {
     return (
@@ -289,12 +256,18 @@ const UsersTable = () => {
 
       <TablePagination
         component="div"
-        count={sortedUsers.length}
+        count={data?.pagination.total ?? 0}
         page={page}
         onPageChange={(_, newPage) => setPage(newPage)}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[]}
+        rowsPerPageOptions={[8]}
       />
+
+      {isFetching && (
+        <Typography variant="body2" align="center" sx={{ py: 1 }}>
+          Loading new page...
+        </Typography>
+      )}
     </Box>
   );
 };

@@ -1,16 +1,28 @@
-import { Controller, useForm } from 'react-hook-form';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  MenuItem,
+  Snackbar,
+  Alert,
+} from '@mui/material';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, TextField, Snackbar, Alert, Paper, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
-import { updateUserValidator, type UpdateUserFormInputs } from '@/validators/userValidator';
-import type { RootState } from '@/store/store';
-import { useUpdateCurrentUser } from '@/hooks/useUpdateCurrentUser';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useCreateUser } from '@/hooks/useCreateUser';
+import { createUserValidator, type CreateUserFormInputs } from '@/validators/userValidator';
+import theme from '@/theme';
+import { extractErrorMessage } from '@/utils/errorHandler';
 
-const UpdateCurrentUser = () => {
-  const user = useSelector((state: RootState) => state.user.userData);
-  const updateMutation = useUpdateCurrentUser();
+const CreateUserComponent = () => {
+  const { data: currentUser } = useCurrentUser();
+  const createMutation = useCreateUser();
+
+  const roleOptions: CreateUserFormInputs['role'][] = ['admin', 'employee', 'citizen'];
 
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
@@ -22,77 +34,70 @@ const UpdateCurrentUser = () => {
     severity: 'success',
   });
 
-  const defaultValues: UpdateUserFormInputs = {
-    username: user?.username ?? '',
-    email: user?.email ?? '',
-    firstname: user?.firstname ?? '',
-    lastname: user?.lastname ?? '',
-    phoneNumber: user?.phoneNumber ?? '',
-    ssn: user?.ssn ?? '',
-    address: {
-      city: user?.address?.city ?? '',
-      street: user?.address?.street ?? '',
-      number: user?.address?.number ?? '',
-      postcode: user?.address?.postcode ?? '',
-    },
-  };
-
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<UpdateUserFormInputs>({
-    resolver: zodResolver(updateUserValidator),
-    defaultValues,
+  } = useForm<CreateUserFormInputs>({
+    resolver: zodResolver(createUserValidator),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      firstname: '',
+      lastname: '',
+      phoneNumber: '',
+      ssn: '',
+      address: { city: '', street: '', number: '', postcode: '' },
+      role: 'citizen', // default role
+    },
   });
 
-  useEffect(() => {
-    if (user)
-      reset({
-        username: user.username,
-        email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        phoneNumber: user.phoneNumber,
-        ssn: user.ssn,
-        address: {
-          city: user.address.city,
-          street: user.address.street,
-          number: user.address.number,
-          postcode: user.address.postcode,
-        },
-      });
-  }, [user, reset]);
+  const onSubmit = (data: CreateUserFormInputs) => {
+    setSnackbar({ open: false, message: '', severity: 'success' });
 
-  const onSubmit = (data: UpdateUserFormInputs) => {
-    updateMutation.mutate(data, {
-      onSuccess: (updatedUser) => {
-        setSnackbar({ open: true, message: 'Profile updated successfully', severity: 'success' });
-        reset(updatedUser);
+    createMutation.mutate(data, {
+      onSuccess: (res) => {
+        if (res.status) {
+          setSnackbar({
+            open: true,
+            message: `User created successfully!`,
+            severity: 'success',
+          });
+          reset();
+        } else {
+          setSnackbar({
+            open: true,
+            message: 'Something went wrong',
+            severity: 'error',
+          });
+        }
       },
       onError: (error) => {
-        setSnackbar({ open: true, message: error.message, severity: 'error' });
+        setSnackbar({
+          open: true,
+          message: extractErrorMessage(error),
+          severity: 'error',
+        });
       },
     });
   };
-
-  if (!user) return <div>Loading...</div>;
 
   return (
     <>
       <Box
         sx={{
-          bgcolor: 'background.default',
           width: 800,
           mx: 'auto',
           mt: 5,
           pb: 5,
+          bgcolor: theme.palette.background.default,
           borderRadius: 2,
           boxShadow: 4,
           display: 'flex',
           flexDirection: 'column',
-          gap: 4,
+          gap: 3,
         }}
       >
         <Paper
@@ -110,12 +115,12 @@ const UpdateCurrentUser = () => {
             boxShadow: 4,
           }}
         >
-          <Typography variant="h6" fontWeight="bold">
-            Update Profile
+          <Typography variant="h6" fontWeight="bold" color={theme.palette.background.default}>
+            Create User
           </Typography>
         </Paper>
 
-        {/* Form */}
+        {/* FORM */}
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -301,16 +306,76 @@ const UpdateCurrentUser = () => {
             />
           </Box>
 
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            {/* Password */}
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Password*"
+                  placeholder="Enter your password"
+                  InputLabelProps={{ shrink: true }}
+                  type="password"
+                  fullWidth
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                />
+              )}
+            />
+
+            {/* Role dropdown visible only for admins */}
+            {currentUser?.role === 'admin' && (
+              <Controller
+                name="role"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Role"
+                    select
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    error={!!errors.role}
+                    helperText={errors.role?.message}
+                    slotProps={{
+                      select: {
+                        MenuProps: {
+                          PaperProps: {
+                            sx: {
+                              bgcolor: 'background.default',
+                            },
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    {roleOptions.map((role) => (
+                      <MenuItem key={role} value={role}>
+                        {role.charAt(0).toUpperCase() + role.slice(1)}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            )}
+          </Box>
+
+          {/* Submit button */}
           <Box sx={{ display: 'flex', justifyContent: 'end', mt: 2, px: 4 }}>
-            {/* Submit Button */}
-            <Button type="submit" variant="contained" color="secondary">
-              Update
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              disabled={createMutation.isPending}
+            >
+              {createMutation.isPending ? 'Creating...' : 'Create User'}
             </Button>
           </Box>
         </Box>
       </Box>
 
-      {/* Snackbar for success/error */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={5000}
@@ -329,4 +394,4 @@ const UpdateCurrentUser = () => {
   );
 };
 
-export default UpdateCurrentUser;
+export default CreateUserComponent;

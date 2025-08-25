@@ -27,6 +27,10 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
     navigate('/users');
   };
 
+  const handleCreateUserClick = () => {
+    navigate('/users/create');
+  };
+
   return (
     <Box
       component={component}
@@ -50,9 +54,19 @@ const Sidebar = ({ component = 'aside' }: SidebarProps) => {
         Profile
       </Button>
       {(currentUser.data?.role === 'admin' || currentUser.data?.role === 'employee') && (
-        <Button variant="contained" color="secondary" size="small" onClick={handleUsersClick}>
-          Manage Users
-        </Button>
+        <>
+          <Button variant="contained" color="secondary" size="small" onClick={handleUsersClick}>
+            Manage Users
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            onClick={handleCreateUserClick}
+          >
+            Create User
+          </Button>
+        </>
       )}
       <Button
         variant="contained"

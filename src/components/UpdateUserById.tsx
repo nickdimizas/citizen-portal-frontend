@@ -11,7 +11,7 @@ type UpdateUserByIdProps = { id: string };
 
 const UpdateUserById = ({ id }: UpdateUserByIdProps) => {
   const { data: user, isLoading } = useGetUserById(id);
-  const updateUser = useUpdateUserById(id);
+  const updateMutation = useUpdateUserById(id);
 
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
@@ -67,7 +67,7 @@ const UpdateUserById = ({ id }: UpdateUserByIdProps) => {
   }, [user, reset]);
 
   const onSubmit = (data: UpdateUserFormInputs) => {
-    updateUser.mutate(data, {
+    updateMutation.mutate(data, {
       onSuccess: (updatedUser) => {
         setSnackbar({ open: true, message: 'User updated successfully', severity: 'success' });
         reset(updatedUser);

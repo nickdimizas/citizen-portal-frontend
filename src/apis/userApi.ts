@@ -1,18 +1,18 @@
 import type {
   ChangePasswordData,
   ChangePasswordResponse,
+  CreateUserResponse,
   GetUsersOptions,
+  ToggleUserActiveResponse,
   UserPaginationResult,
 } from '@/types/api';
 import type { IUser } from '@/types/user';
-import type { UpdateUserFormInputs } from '@/validators/userValidator';
+import type { CreateUserFormInputs, UpdateUserFormInputs } from '@/validators/userValidator';
 
 import { axiosInstance } from './axiosInstance';
 
-export const changePasswordApi = async (
-  data: ChangePasswordData,
-): Promise<ChangePasswordResponse> => {
-  const res = await axiosInstance.patch('/users/me/password', data);
+export const createUser = async (data: CreateUserFormInputs): Promise<CreateUserResponse> => {
+  const res = await axiosInstance.post('/users', data);
   return res.data;
 };
 
@@ -35,4 +35,16 @@ export const updateUserApi = async (payload: UpdateUserFormInputs, id?: string):
   const url = id ? `/users/${id}` : '/users/me';
   const res = await axiosInstance.patch(url, payload);
   return res.data.data;
+};
+
+export const toggleUserActiveApi = async (id: string): Promise<ToggleUserActiveResponse> => {
+  const res = await axiosInstance.patch(`/users/${id}/active`);
+  return res.data;
+};
+
+export const changePasswordApi = async (
+  data: ChangePasswordData,
+): Promise<ChangePasswordResponse> => {
+  const res = await axiosInstance.patch('/users/me/password', data);
+  return res.data;
 };

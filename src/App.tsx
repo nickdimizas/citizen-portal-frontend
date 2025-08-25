@@ -14,6 +14,8 @@ import HomePage from '@/pages/HomePage';
 import UpdateCurrentUserPage from '@/pages/UpdateCurrentUserPage';
 import UpdateUserByIdPage from '@/pages/UpdateUserByIdPage';
 
+import CreateUserPage from './pages/CreateUserPage';
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -50,7 +52,7 @@ const App = () => {
                 <Route path="edit" element={<UpdateCurrentUserPage />} />
               </Route>
 
-              {/* /users/:id */}
+              <Route path="create" element={<CreateUserPage />} />
               <Route path=":id" element={<UserProfileByIdPage />} />
               <Route path=":id/edit" element={<UpdateUserByIdPage />} />
             </Route>

@@ -4,6 +4,7 @@ type RegisterFormInputs = z.infer<typeof registerValidator>;
 type LoginFormInputs = z.infer<typeof loginValidator>;
 type UpdateUserFormInputs = z.infer<typeof updateUserValidator>;
 type ChangePasswordFormInputs = z.infer<typeof changePasswordValidator>;
+type CreateUserFormInputs = z.infer<typeof createUserValidator>;
 
 const registerValidator = z
   .object({
@@ -77,6 +78,12 @@ const registerValidator = z
       .min(1, { message: 'Ssn is required' })
       .transform((str) => str.trim())
       .refine((val) => /^\d{9}$/.test(val), { message: 'SSN must be exactly 9 digits' }),
+  })
+  .strict();
+
+const createUserValidator = registerValidator
+  .extend({
+    role: z.enum(['admin', 'employee', 'citizen']),
   })
   .strict();
 
@@ -203,5 +210,17 @@ const changePasswordValidator = z
   })
   .strict();
 
-export type { RegisterFormInputs, LoginFormInputs, ChangePasswordFormInputs, UpdateUserFormInputs };
-export { loginValidator, registerValidator, changePasswordValidator, updateUserValidator };
+export type {
+  RegisterFormInputs,
+  LoginFormInputs,
+  ChangePasswordFormInputs,
+  UpdateUserFormInputs,
+  CreateUserFormInputs,
+};
+export {
+  loginValidator,
+  registerValidator,
+  changePasswordValidator,
+  updateUserValidator,
+  createUserValidator,
+};

@@ -1,6 +1,7 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import type { AxiosError } from 'axios';
+import { useEffect } from 'react';
 
 import type { GetUsersOptions, UserPaginationResult } from '@/types/api';
 import { getAllUsersApi } from '@/apis/userApi';
@@ -9,17 +10,18 @@ import { setUsers } from '@/store/usersSlice';
 
 export const useGetUsers = (options?: GetUsersOptions) => {
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
 
   const query = useQuery<UserPaginationResult, AxiosError<BackendErrorResponse>>({
     queryKey: ['users', options],
     queryFn: () => getAllUsersApi(options),
+    placeholderData: keepPreviousData,
   });
 
-  if (query.data?.users) {
-    dispatch(setUsers(query.data.users));
-    queryClient.setQueryData(['users', options], query.data);
-  }
+  useEffect(() => {
+    if (query.data?.users) {
+      dispatch(setUsers(query.data.users));
+    }
+  }, [query.data, dispatch]);
 
   return query;
 };

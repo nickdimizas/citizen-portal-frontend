@@ -11,6 +11,8 @@ import theme from '@/theme';
 import logo from '@/assets/logo.jpg';
 
 const RegisterForm = () => {
+  const registerMutation = useRegister();
+
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
@@ -44,8 +46,6 @@ const RegisterForm = () => {
       },
     },
   });
-
-  const registerMutation = useRegister();
 
   const onSubmit = (data: RegisterFormInputs) => {
     setSnackbar({ open: false, message: '', severity: 'success' });

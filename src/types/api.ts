@@ -11,6 +11,22 @@ interface RegisterResponse {
   data: string;
 }
 
+interface CreateUserResponse {
+  status: boolean;
+  message: string;
+  data: string;
+}
+
+interface ToggleUserActiveResponse {
+  status: boolean;
+  message: string;
+  data: {
+    id: string;
+    username: string;
+    active: boolean;
+  };
+}
+
 interface ChangePasswordData {
   currentPassword: string;
   newPassword: string;
@@ -48,4 +64,6 @@ export type {
   UserPaginationResult,
   ChangePasswordData,
   ChangePasswordResponse,
+  CreateUserResponse,
+  ToggleUserActiveResponse,
 };
