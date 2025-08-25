@@ -8,11 +8,11 @@ import RegisterPage from '@/pages/RegisterPage';
 import ProfilePage from '@/pages/ProfilePage';
 import DashboardLayout from '@/components/DashboardLayout';
 import ProtectedRoute from '@/components/ProtectedRoute';
-
-import UsersTablePage from './pages/UsersTablePage';
-import UserProfileByIdPage from './pages/UserProfileByIdPage';
-import HomePage from './pages/HomePage';
-import UpdateCurrentUserPage from './pages/UpdateCurrentUserPage';
+import UsersTablePage from '@/pages/UsersTablePage';
+import UserProfileByIdPage from '@/pages/UserProfileByIdPage';
+import HomePage from '@/pages/HomePage';
+import UpdateCurrentUserPage from '@/pages/UpdateCurrentUserPage';
+import UpdateUserByIdPage from '@/pages/UpdateUserByIdPage';
 
 const App = () => {
   return (
@@ -52,6 +52,7 @@ const App = () => {
 
               {/* /users/:id */}
               <Route path=":id" element={<UserProfileByIdPage />} />
+              <Route path=":id/edit" element={<UpdateUserByIdPage />} />
             </Route>
           </Route>
 

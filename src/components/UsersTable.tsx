@@ -66,6 +66,14 @@ const UsersTable = () => {
     }
   };
 
+  const handleEditIconClick = (id: string) => {
+    navigate(`/users/${id}/edit`);
+  };
+
+  const handleViewIconClick = (id: string) => {
+    navigate(`/users/${id}`);
+  };
+
   // Derived data
   const filteredUsers = useMemo(() => {
     if (!data) return [];
@@ -216,7 +224,6 @@ const UsersTable = () => {
                   'Status',
                   'Created At',
                 ].map((header) => {
-                  // Map header string to actual IUser key
                   const keyMap: Record<string, keyof IUser> = {
                     username: 'username',
                     firstname: 'firstname',
@@ -267,10 +274,10 @@ const UsersTable = () => {
                   })}
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => navigate(`/users/${user.id}`)}>
+                  <IconButton onClick={() => handleViewIconClick(user.id)}>
                     <VisibilityIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={() => handleEditIconClick(user.id)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>

@@ -10,7 +10,7 @@ import {
   ListItemIcon,
   Button,
 } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -25,9 +25,13 @@ import { useGetUserById } from '@/hooks/useGetUserById';
 
 const UserProfileById = () => {
   const { id } = useParams();
-  console.log('Param id:', id);
+  const navigate = useNavigate();
   const { data: currentUser } = useCurrentUser();
   const { data: user, isLoading, error } = useGetUserById(id!);
+
+  const handleUpdateClick = (id: string) => {
+    navigate(`/users/${id}/edit`);
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Failed to load user</div>;
@@ -208,7 +212,7 @@ const UserProfileById = () => {
               </Button>
             </>
           )}
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="secondary" onClick={() => handleUpdateClick(user.id)}>
             Update
           </Button>
         </Box>

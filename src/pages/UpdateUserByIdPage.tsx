@@ -1,13 +1,18 @@
-// import { Container } from '@mui/material';
+import { Container } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
-// import UpdateUserById from '@/components/UpdateUserById';
+import UpdateUserById from '@/components/UpdateUserById';
 
-// const UpdateUserByIdPage = () => {
-//   return (
-//     <Container maxWidth="md">
-//       <UpdateUserById />
-//     </Container>
-//   );
-// };
+const UpdateUserByIdPage = () => {
+  const { id } = useParams<{ id: string }>();
 
-// export default UpdateUserByIdPage;
+  if (!id) return <div>Invalid user id</div>;
+
+  return (
+    <Container maxWidth="md">
+      <UpdateUserById id={id} />
+    </Container>
+  );
+};
+
+export default UpdateUserByIdPage;
