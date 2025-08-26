@@ -12,10 +12,11 @@ import {
   Alert,
   Snackbar,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
@@ -32,6 +33,8 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useGetUserById } from '@/hooks/useGetUserById';
 import { useToggleUserActive } from '@/hooks/useToggleUserActive';
 import { extractErrorMessage } from '@/utils/errorHandler';
+import { useChangeUserRole } from '@/hooks/useChangeRole';
+import type { UserRole } from '@/types/user';
 
 const UserProfileById = () => {
   const navigate = useNavigate();
@@ -40,6 +43,7 @@ const UserProfileById = () => {
   const { data: user, isLoading, error } = useGetUserById(id!);
 
   const toggleActiveMutation = useToggleUserActive();
+  const changeRoleMutation = useChangeUserRole();
 
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
@@ -47,7 +51,10 @@ const UserProfileById = () => {
     severity: 'success' | 'error';
   }>({ open: false, message: '', severity: 'success' });
 
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [activeStatusDialogOpen, setActiveStatusDialogOpen] = useState(false);
+
+  const [roleDialogOpen, setRoleDialogOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
 
   const handleToggleActive = () => {
     if (!user) return;
@@ -76,7 +83,32 @@ const UserProfileById = () => {
         });
       },
     });
-    setConfirmDialogOpen(false);
+    setActiveStatusDialogOpen(false);
+  };
+
+  const handleChangeRole = () => {
+    if (!user || !selectedRole) return;
+
+    changeRoleMutation.mutate(
+      { id: user.id, role: selectedRole },
+      {
+        onSuccess: (res) => {
+          setSnackbar({
+            open: true,
+            message: res.message,
+            severity: 'success',
+          });
+          setRoleDialogOpen(false);
+        },
+        onError: (error) => {
+          setSnackbar({
+            open: true,
+            message: extractErrorMessage(error),
+            severity: 'error',
+          });
+        },
+      },
+    );
   };
 
   const handleUpdateClick = (id: string) => {
@@ -254,14 +286,21 @@ const UserProfileById = () => {
           {/* Buttons */}
           <Box display="flex" justifyContent="space-around" p={2} bgcolor="background.default">
             {currentUser?.role === 'admin' && (
-              <Button variant="contained" color="secondary">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  setSelectedRole(user.role);
+                  setRoleDialogOpen(true);
+                }}
+              >
                 Change Role
               </Button>
             )}
             <Button
               variant="contained"
               color={user.active ? 'error' : 'success'}
-              onClick={() => setConfirmDialogOpen(true)}
+              onClick={() => setActiveStatusDialogOpen(true)}
             >
               {user.active ? 'Deactivate' : 'Activate'}
             </Button>
@@ -277,17 +316,32 @@ const UserProfileById = () => {
         </Card>
       </Box>
 
-      {/* Confirmation Dialog */}
+      {/* Change Active Status Dialog */}
       <Dialog
-        open={confirmDialogOpen}
-        onClose={() => setConfirmDialogOpen(false)}
+        open={activeStatusDialogOpen}
+        onClose={() => setActiveStatusDialogOpen(false)}
         slotProps={{
           paper: {
             sx: { bgcolor: 'background.default' },
           },
         }}
       >
-        <DialogTitle>{user?.active ? 'Deactivate User' : 'Activate User'}</DialogTitle>
+        <Paper
+          sx={{
+            bgcolor: 'primary.main',
+            px: 2,
+            py: 1.5,
+            borderRadius: 0,
+          }}
+          elevation={0}
+        >
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 600, color: 'background.default', textAlign: 'center' }}
+          >
+            {user?.active ? 'Deactivate User' : 'Activate User'}
+          </Typography>
+        </Paper>
         <DialogContent>
           <DialogContentText>
             {user?.active
@@ -296,9 +350,65 @@ const UserProfileById = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setConfirmDialogOpen(false)}>Cancel</Button>
+          <Button onClick={() => setActiveStatusDialogOpen(false)}>Cancel</Button>
           <Button onClick={handleToggleActive} color={user?.active ? 'error' : 'success'}>
             {user?.active ? 'Deactivate' : 'Activate'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Change Role Dialog */}
+      <Dialog
+        open={roleDialogOpen}
+        onClose={() => setRoleDialogOpen(false)}
+        slotProps={{
+          paper: {
+            sx: {
+              bgcolor: 'background.default',
+              width: 'auto',
+              minWidth: 'unset',
+              borderTopLeftRadius: 4,
+              borderTopRightRadius: 4,
+            },
+          },
+        }}
+      >
+        <Paper
+          sx={{
+            bgcolor: 'primary.main',
+            px: 2,
+            py: 1.5,
+            borderRadius: 0,
+          }}
+          elevation={0}
+        >
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 600, color: 'background.default', textAlign: 'center' }}
+          >
+            Change User Role
+          </Typography>
+        </Paper>
+        <DialogContent>
+          <Select
+            sx={{ width: 250 }}
+            value={selectedRole ?? ''}
+            onChange={(e) => setSelectedRole(e.target.value as UserRole)}
+          >
+            <MenuItem value="admin">Admin</MenuItem>
+            <MenuItem value="employee">Employee</MenuItem>
+            <MenuItem value="citizen">Citizen</MenuItem>
+          </Select>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setRoleDialogOpen(false)}>Cancel</Button>
+          <Button
+            onClick={handleChangeRole}
+            color="primary"
+            variant="contained"
+            disabled={changeRoleMutation.isPending || selectedRole === user.role}
+          >
+            Change Role
           </Button>
         </DialogActions>
       </Dialog>

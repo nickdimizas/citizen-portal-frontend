@@ -27,6 +27,16 @@ interface ToggleUserActiveResponse {
   };
 }
 
+interface ChangeUserRoleResponse {
+  status: boolean;
+  message: string;
+  data: {
+    id: string;
+    username: string;
+    role: string;
+  };
+}
+
 interface ChangePasswordData {
   currentPassword: string;
   newPassword: string;
@@ -66,4 +76,5 @@ export type {
   ChangePasswordResponse,
   CreateUserResponse,
   ToggleUserActiveResponse,
+  ChangeUserRoleResponse,
 };

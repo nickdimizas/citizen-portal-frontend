@@ -1,6 +1,7 @@
 import type {
   ChangePasswordData,
   ChangePasswordResponse,
+  ChangeUserRoleResponse,
   CreateUserResponse,
   GetUsersOptions,
   ToggleUserActiveResponse,
@@ -39,6 +40,14 @@ export const updateUserApi = async (payload: UpdateUserFormInputs, id?: string):
 
 export const toggleUserActiveApi = async (id: string): Promise<ToggleUserActiveResponse> => {
   const res = await axiosInstance.patch(`/users/${id}/active`);
+  return res.data;
+};
+
+export const changeUserRoleApi = async (
+  id: string,
+  role: string,
+): Promise<ChangeUserRoleResponse> => {
+  const res = await axiosInstance.patch(`/users/${id}/role`, { role });
   return res.data;
 };
 
