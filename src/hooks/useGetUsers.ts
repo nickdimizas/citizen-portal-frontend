@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 import type { GetUsersOptions, UserPaginationResult } from '@/types/api';
 import { getAllUsersApi } from '@/apis/userApi';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 import { setUsers } from '@/store/usersSlice';
 
 export const useGetUsers = (options?: GetUsersOptions) => {
@@ -15,13 +15,19 @@ export const useGetUsers = (options?: GetUsersOptions) => {
     queryKey: ['users', options],
     queryFn: () => getAllUsersApi(options),
     placeholderData: keepPreviousData,
+    retry: false,
   });
 
   useEffect(() => {
     if (query.data?.users) {
       dispatch(setUsers(query.data.users));
     }
-  }, [query.data, dispatch]);
+
+    if (query.error) {
+      const message = extractErrorMessage(query.error);
+      console.error('useGetUsers error:', message);
+    }
+  }, [query.data, query.error, options, dispatch]);
 
   return query;
 };

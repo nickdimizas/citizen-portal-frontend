@@ -15,6 +15,7 @@ import UpdateCurrentUserPage from '@/pages/UpdateCurrentUserPage';
 import UpdateUserByIdPage from '@/pages/UpdateUserByIdPage';
 
 import CreateUserPage from './pages/CreateUserPage';
+import ErrorPage from './pages/ErrorPage';
 
 const App = () => {
   return (
@@ -28,6 +29,9 @@ const App = () => {
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+
+          {/* Dedicated error page */}
+          <Route path="/error" element={<ErrorPage />} />
 
           {/* Protected routes that share DashboardLayout */}
           <Route
@@ -59,7 +63,12 @@ const App = () => {
           </Route>
 
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route
+            path="*"
+            element={
+              <Navigate to="/error" replace state={{ status: 404, message: 'Page not found' }} />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

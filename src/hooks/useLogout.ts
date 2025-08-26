@@ -6,7 +6,7 @@ import type { AxiosError } from 'axios';
 import { logoutApi } from '@/apis/authApi';
 import { logout } from '@/store/authSlice';
 import { clearUser } from '@/store/userSlice';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 
 export const useLogout = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,8 @@ export const useLogout = () => {
       navigate('/login');
     },
     onError: (error) => {
-      console.error('Logout failed', error);
+      const message = extractErrorMessage(error);
+      console.error('Logout failed:', message);
     },
   });
 };

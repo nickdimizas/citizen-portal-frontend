@@ -6,7 +6,7 @@ import { updateUsers } from '@/store/usersSlice';
 import type { IUser } from '@/types/user';
 import { updateUserApi } from '@/apis/userApi';
 import type { UpdateUserFormInputs } from '@/validators/userValidator';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 
 export const useUpdateUserById = (id: string) => {
   const dispatch = useDispatch();
@@ -28,7 +28,8 @@ export const useUpdateUserById = (id: string) => {
       }
     },
     onError: (error) => {
-      console.error(`Failed to update user ${id}`, error);
+      const message = extractErrorMessage(error);
+      console.error(`Failed to update user ${id}:`, message);
     },
   });
 };

@@ -27,7 +27,7 @@ import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import EventIcon from '@mui/icons-material/Event';
 import PhoneIcon from '@mui/icons-material/Phone';
 import UpdateIcon from '@mui/icons-material/Update';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useGetUserById } from '@/hooks/useGetUserById';
@@ -42,6 +42,14 @@ const UserProfileById = () => {
   const { id } = useParams();
   const { data: currentUser } = useCurrentUser();
   const { data: user, isLoading, error } = useGetUserById(id!);
+
+  useEffect(() => {
+    if (error) {
+      const status = error.response?.status ?? 500;
+      const message = extractErrorMessage(error);
+      navigate('/error', { state: { status, message } });
+    }
+  }, [error, navigate]);
 
   const toggleActiveMutation = useToggleUserActive();
   const changeRoleMutation = useChangeUserRole();
@@ -139,7 +147,6 @@ const UserProfileById = () => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Failed to load user</div>;
   if (!user) return null;
 
   return (

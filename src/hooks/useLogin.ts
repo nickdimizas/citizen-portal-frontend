@@ -5,7 +5,7 @@ import type { AxiosError } from 'axios';
 import type { LoginFormInputs } from '@/validators/userValidator';
 import { loginApi } from '@/apis/authApi';
 import { setAuthenticated } from '@/store/authSlice';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 import type { LoginResponse } from '@/types/api';
 
 export const useLogin = () => {
@@ -19,7 +19,8 @@ export const useLogin = () => {
       }
     },
     onError: (error) => {
-      console.error(error);
+      const message = extractErrorMessage(error);
+      console.error('Login failed:', message);
     },
   });
 };

@@ -4,7 +4,7 @@ import type { AxiosError } from 'axios';
 import { toggleUserActiveApi } from '@/apis/userApi';
 import type { ToggleUserActiveResponse } from '@/types/api';
 import type { IUser } from '@/types/user';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 
 export const useToggleUserActive = () => {
   const queryClient = useQueryClient();
@@ -25,7 +25,8 @@ export const useToggleUserActive = () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
     onError: (error) => {
-      console.error('Failed to toggle user active status', error);
+      const message = extractErrorMessage(error);
+      console.error('Failed to toggle user active status:', message);
     },
   });
 };

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import type { AxiosError } from 'axios';
 
-import { setUser } from '@/store/userSlice';
+import { clearUser, setUser } from '@/store/userSlice';
 import type { IUser } from '@/types/user';
 import { getMyProfileApi } from '@/apis/userApi';
 import type { BackendErrorResponse } from '@/utils/errorHandler';
@@ -20,7 +20,12 @@ export const useCurrentUser = () => {
     if (data) {
       dispatch(setUser(data));
     }
-  }, [data, dispatch]);
+
+    if (error?.response?.status === 401) {
+      dispatch(clearUser());
+      window.location.href = '/login';
+    }
+  }, [data, error, dispatch]);
 
   return { data, error, isLoading };
 };

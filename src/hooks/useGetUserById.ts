@@ -4,7 +4,7 @@ import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import type { IUser } from '@/types/user';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 import { getUserByIdApi } from '@/apis/userApi';
 import { updateUsers } from '@/store/usersSlice';
 import type { RootState } from '@/store/store';
@@ -21,13 +21,19 @@ export const useGetUserById = (id: string) => {
     queryFn: () => getUserByIdApi(id),
     enabled: !!id,
     initialData: existingUser,
+    retry: false,
   });
 
   useEffect(() => {
     if (query.data) {
       dispatch(updateUsers(query.data));
     }
-  }, [query.data, dispatch]);
+
+    if (query.error) {
+      const message = extractErrorMessage(query.error);
+      console.error(`useGetUserById error for id ${id}:`, message);
+    }
+  }, [query.data, query.error, id, dispatch]);
 
   return query;
 };

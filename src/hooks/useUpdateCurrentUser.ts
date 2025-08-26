@@ -3,7 +3,7 @@ import type { AxiosError } from 'axios';
 
 import { updateUserApi } from '@/apis/userApi';
 import type { UpdateUserFormInputs } from '@/validators/userValidator';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 import type { IUser } from '@/types/user';
 
 export const useUpdateCurrentUser = () => {
@@ -15,7 +15,8 @@ export const useUpdateCurrentUser = () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
     onError: (error) => {
-      console.error('Failed to update self', error);
+      const message = extractErrorMessage(error);
+      console.error('Failed to update self:', message);
     },
   });
 };

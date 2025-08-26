@@ -14,16 +14,15 @@ import {
   TablePagination,
   Paper,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
-import type { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import { useGetUsers } from '@/hooks/useGetUsers';
 import type { IUser, UserRole } from '@/types/user';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage } from '@/utils/errorHandler';
 
 const UsersTable = () => {
   const navigate = useNavigate();
@@ -49,6 +48,14 @@ const UsersTable = () => {
     active: statusFilter === 'all' ? undefined : statusFilter === 'active',
     search,
   });
+
+  useEffect(() => {
+    if (error) {
+      const status = error.response?.status ?? 500;
+      const message = extractErrorMessage(error);
+      navigate('/error', { state: { status, message } });
+    }
+  }, [error, navigate]);
 
   // Handlers
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,27 +95,6 @@ const UsersTable = () => {
       <Box display="flex" justifyContent="center" p={3}>
         <CircularProgress />
       </Box>
-    );
-  }
-
-  // Error handling
-  if (error) {
-    const typedError = error as AxiosError<BackendErrorResponse>;
-    const message = extractErrorMessage(typedError);
-
-    // Special handling for forbidden access
-    if (typedError.response?.status === 403 || message.toLowerCase().includes('forbidden')) {
-      return (
-        <Typography color="error" align="center" p={3}>
-          You do not have permission to view this page.
-        </Typography>
-      );
-    }
-
-    return (
-      <Typography color="error" align="center" p={3}>
-        {message}
-      </Typography>
     );
   }
 

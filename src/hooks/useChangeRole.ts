@@ -4,7 +4,7 @@ import type { AxiosError } from 'axios';
 import { changeUserRoleApi } from '@/apis/userApi';
 import type { ChangeUserRoleResponse } from '@/types/api';
 import type { IUser, UserRole } from '@/types/user';
-import type { BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 
 export const useChangeUserRole = () => {
   const queryClient = useQueryClient();
@@ -29,9 +29,9 @@ export const useChangeUserRole = () => {
 
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
-
     onError: (error) => {
-      console.error('Failed to change user role', error);
+      const message = extractErrorMessage(error);
+      console.error('Failed to change user role:', message);
     },
   });
 };

@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 
 import { type ChangePasswordFormInputs } from '@/validators/userValidator';
 import { changePasswordApi } from '@/apis/userApi';
-import { type BackendErrorResponse } from '@/utils/errorHandler';
+import { extractErrorMessage, type BackendErrorResponse } from '@/utils/errorHandler';
 import { type ChangePasswordResponse } from '@/types/api';
 
 export const useChangePassword = () => {
@@ -17,7 +17,8 @@ export const useChangePassword = () => {
       console.log('Password changed successfully', res);
     },
     onError: (error) => {
-      console.error('Error changing password:', error.response?.data?.message || error.message);
+      const message = extractErrorMessage(error);
+      console.error('Error changing password:', message);
     },
   });
 };
