@@ -146,7 +146,7 @@ const ChangePasswordForm = () => {
               variant="contained"
               size="small"
               disabled={changePasswordMutation.isPending}
-              sx={{ bgcolor: 'background.paper' }}
+              color="secondary"
             >
               {changePasswordMutation.isPending ? 'Changing...' : 'Change Password'}
             </Button>

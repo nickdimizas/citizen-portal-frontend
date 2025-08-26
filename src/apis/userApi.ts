@@ -3,6 +3,7 @@ import type {
   ChangePasswordResponse,
   ChangeUserRoleResponse,
   CreateUserResponse,
+  DeleteUserResponse,
   GetUsersOptions,
   ToggleUserActiveResponse,
   UserPaginationResult,
@@ -36,6 +37,11 @@ export const updateUserApi = async (payload: UpdateUserFormInputs, id?: string):
   const url = id ? `/users/${id}` : '/users/me';
   const res = await axiosInstance.patch(url, payload);
   return res.data.data;
+};
+
+export const deleteUserApi = async (id: string): Promise<DeleteUserResponse> => {
+  const res = await axiosInstance.delete(`/users/${id}`);
+  return res.data;
 };
 
 export const toggleUserActiveApi = async (id: string): Promise<ToggleUserActiveResponse> => {

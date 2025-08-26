@@ -17,6 +17,16 @@ interface CreateUserResponse {
   data: string;
 }
 
+interface DeleteUserResponse {
+  status: boolean;
+  message: string;
+  data: {
+    id: string;
+    username: string;
+    email: string;
+  };
+}
+
 interface ToggleUserActiveResponse {
   status: boolean;
   message: string;
@@ -77,4 +87,5 @@ export type {
   CreateUserResponse,
   ToggleUserActiveResponse,
   ChangeUserRoleResponse,
+  DeleteUserResponse,
 };

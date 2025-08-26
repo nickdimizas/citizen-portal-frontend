@@ -35,6 +35,7 @@ import { useToggleUserActive } from '@/hooks/useToggleUserActive';
 import { extractErrorMessage } from '@/utils/errorHandler';
 import { useChangeUserRole } from '@/hooks/useChangeRole';
 import type { UserRole } from '@/types/user';
+import { useDeleteUser } from '@/hooks/useDeleteUser';
 
 const UserProfileById = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const UserProfileById = () => {
 
   const toggleActiveMutation = useToggleUserActive();
   const changeRoleMutation = useChangeUserRole();
+  const deleteUserMutation = useDeleteUser();
 
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
@@ -52,7 +54,7 @@ const UserProfileById = () => {
   }>({ open: false, message: '', severity: 'success' });
 
   const [activeStatusDialogOpen, setActiveStatusDialogOpen] = useState(false);
-
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [roleDialogOpen, setRoleDialogOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
 
@@ -109,6 +111,27 @@ const UserProfileById = () => {
         },
       },
     );
+  };
+
+  const handleDeleteUser = () => {
+    if (!user) return;
+
+    deleteUserMutation.mutate(user.id, {
+      onSuccess: (res) => {
+        setSnackbar({
+          open: true,
+          message: `User ${res.data.username} deleted successfully`,
+          severity: 'success',
+        });
+        setTimeout(() => {
+          setDeleteDialogOpen(false);
+          navigate('/users');
+        }, 1000);
+      },
+      onError: (error) => {
+        setSnackbar({ open: true, message: extractErrorMessage(error), severity: 'error' });
+      },
+    });
   };
 
   const handleUpdateClick = (id: string) => {
@@ -286,20 +309,25 @@ const UserProfileById = () => {
           {/* Buttons */}
           <Box display="flex" justifyContent="space-around" p={2} bgcolor="background.default">
             {currentUser?.role === 'admin' && (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  setSelectedRole(user.role);
-                  setRoleDialogOpen(true);
-                }}
-              >
-                Change Role
-              </Button>
+              <>
+                <Button variant="contained" color="error" onClick={() => setDeleteDialogOpen(true)}>
+                  Delete User
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => {
+                    setSelectedRole(user.role);
+                    setRoleDialogOpen(true);
+                  }}
+                >
+                  Change Role
+                </Button>
+              </>
             )}
             <Button
               variant="contained"
-              color={user.active ? 'error' : 'success'}
+              color={user.active ? 'warning' : 'success'}
               onClick={() => setActiveStatusDialogOpen(true)}
             >
               {user.active ? 'Deactivate' : 'Activate'}
@@ -315,7 +343,6 @@ const UserProfileById = () => {
           </Box>
         </Card>
       </Box>
-
       {/* Change Active Status Dialog */}
       <Dialog
         open={activeStatusDialogOpen}
@@ -356,7 +383,6 @@ const UserProfileById = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
       {/* Change Role Dialog */}
       <Dialog
         open={roleDialogOpen}
@@ -412,7 +438,50 @@ const UserProfileById = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
+      {/* Delete User Dialog */} {/* <-- added */}
+      <Dialog
+        open={deleteDialogOpen} // <-- added
+        onClose={() => setDeleteDialogOpen(false)} // <-- added
+        slotProps={{
+          paper: {
+            sx: {
+              bgcolor: 'background.default',
+              width: 'auto',
+              minWidth: 'unset',
+              borderTopLeftRadius: 4,
+              borderTopRightRadius: 4,
+            },
+          },
+        }}
+      >
+        <Paper
+          sx={{
+            bgcolor: 'primary.main',
+            px: 2,
+            py: 1.5,
+            borderRadius: 0,
+          }}
+          elevation={0}
+        >
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 600, color: 'background.default', textAlign: 'center' }}
+          >
+            Delete User
+          </Typography>
+        </Paper>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to permanently delete this user? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleDeleteUser} color="error" variant="contained">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
       {/* Snackbar for success/error */}
       <Snackbar
         open={snackbar.open}
