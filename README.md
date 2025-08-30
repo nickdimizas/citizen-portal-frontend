@@ -45,9 +45,29 @@ The frontend communicates with the [Citizen Portal Backend](https://github.com/n
     ```
 
 2.  **Install dependencies:**
+
     ```bash
     npm install
     ```
+
+3.  **Set up environment variables:**
+    - Copy the `.env.example` file to create your `.env.development` file.
+    ```bash
+    cp .env.example .env.development
+    ```
+
+---
+
+### **Environment Variables**
+
+The frontend uses environment variables to configure its behavior. These variables are handled by Vite and must be prefixed with `VITE_`.
+
+| Variable Name  | Description                                                         | Example Value           |
+| :------------- | :------------------------------------------------------------------ | :---------------------- |
+| `VITE_API_URL` | The URL of the backend API.                                         | `http://localhost:5000` |
+| `VITE_USE_MSW` | **(Optional)** A flag to enable or disable the Mock Service Worker. | `true` or `false`       |
+
+**Note:** If `VITE_USE_MSW` is set to `true`, the application will use mocked API calls instead of a live backend.
 
 ---
 
