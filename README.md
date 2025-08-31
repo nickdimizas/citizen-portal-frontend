@@ -78,3 +78,5 @@ After you have a running instance of the backend, you can start the frontend app
 ```bash
 npm run dev
 ```
+
+The application will be available at [http://localhost:5173](http://localhost:5173).
