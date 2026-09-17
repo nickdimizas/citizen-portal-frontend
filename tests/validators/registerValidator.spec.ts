@@ -158,4 +158,42 @@ describe('registerValidator', () => {
       expect(result.success).toBe(true);
     });
   });
+
+  describe('firstname rules', () => {
+    test('rejects firstname shorter than 2 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        firstname: 'J',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts firstname with exactly 2 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        firstname: 'Jo',
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('accepts firstname with exactly 50 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        firstname: 'A'.repeat(50),
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects firstname longer than 50 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        firstname: 'A'.repeat(51),
+      });
+
+      expect(result.success).toBe(false);
+    });
+  });
 });
