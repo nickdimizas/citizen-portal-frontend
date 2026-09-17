@@ -234,4 +234,42 @@ describe('registerValidator', () => {
       expect(result.success).toBe(false);
     });
   });
+
+  describe('phone number rules', () => {
+    test('rejects phone number shorter than 10 digits', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        phoneNumber: '691234567',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts phone number with exactly 10 digits', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        phoneNumber: '6912345678',
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects phone number longer than 10 digits', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        phoneNumber: '69123456789',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects phone number containing non-digit characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        phoneNumber: '691234567a',
+      });
+
+      expect(result.success).toBe(false);
+    });
+  });
 });
