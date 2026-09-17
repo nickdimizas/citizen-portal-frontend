@@ -223,4 +223,5 @@ export {
   changePasswordValidator,
   updateUserValidator,
   createUserValidator,
+  usernameOrEmailValidator,
 };
