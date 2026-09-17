@@ -272,4 +272,102 @@ describe('registerValidator', () => {
       expect(result.success).toBe(false);
     });
   });
+
+  describe('address rules', () => {
+    test('rejects empty city', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          city: '',
+        },
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts a valid city', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          city: 'Athens',
+        },
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects empty street', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          street: '',
+        },
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts a valid street', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          street: 'Patision',
+        },
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects empty number', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          number: '',
+        },
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts a valid number', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          number: '10',
+        },
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects empty postcode', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          postcode: '',
+        },
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts a valid postcode', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        address: {
+          ...validRegistration.address,
+          postcode: '10431',
+        },
+      });
+
+      expect(result.success).toBe(true);
+    });
+  });
 });
