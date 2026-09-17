@@ -111,4 +111,51 @@ describe('registerValidator', () => {
       expect(result.success).toBe(true);
     });
   });
+
+  describe('password rules', () => {
+    test('rejects password shorter than 8 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        password: 'Pass1!',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects password without a letter', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        password: '12345678!',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects password without a number', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        password: 'Password!',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects password without a special character', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        password: 'Password1',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts a valid password', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        password: 'Password1!',
+      });
+
+      expect(result.success).toBe(true);
+    });
+  });
 });
