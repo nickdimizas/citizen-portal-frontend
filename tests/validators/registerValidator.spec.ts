@@ -370,4 +370,42 @@ describe('registerValidator', () => {
       expect(result.success).toBe(true);
     });
   });
+
+  describe('SSN rules', () => {
+    test('rejects SSN shorter than 9 digits', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        ssn: '12345678',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts SSN with exactly 9 digits', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        ssn: '123456789',
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects SSN longer than 9 digits', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        ssn: '1234567890',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects SSN containing non-digit characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        ssn: '12345678a',
+      });
+
+      expect(result.success).toBe(false);
+    });
+  });
 });
