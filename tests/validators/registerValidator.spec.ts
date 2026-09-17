@@ -26,4 +26,42 @@ describe('registerValidator', () => {
       expect(result.success).toBe(true);
     });
   });
+
+  describe('username rules', () => {
+    test('rejects username shorter than 2 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        username: 'j',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts username with exactly 2 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        username: 'jo',
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('accepts username with exactly 20 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        username: 'abcdefghijklmnopqrst',
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects username longer than 20 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        username: 'abcdefghijklmnopqrstu',
+      });
+
+      expect(result.success).toBe(false);
+    });
+  });
 });
