@@ -64,4 +64,51 @@ describe('registerValidator', () => {
       expect(result.success).toBe(false);
     });
   });
+
+  describe('email rules', () => {
+    test('rejects empty email', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        email: '',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects email without @', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        email: 'john.example.com',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects email without domain', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        email: 'john@',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('rejects email with invalid top-level domain', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        email: 'john@example.c',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts a valid email', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        email: 'john.doe@example.com',
+      });
+
+      expect(result.success).toBe(true);
+    });
+  });
 });
