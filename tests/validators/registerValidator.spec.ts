@@ -196,4 +196,42 @@ describe('registerValidator', () => {
       expect(result.success).toBe(false);
     });
   });
+
+  describe('lastname rules', () => {
+    test('rejects lastname shorter than 2 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        lastname: 'D',
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    test('accepts lastname with exactly 2 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        lastname: 'Do',
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('accepts lastname with exactly 50 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        lastname: 'A'.repeat(50),
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    test('rejects lastname longer than 50 characters', () => {
+      const result = registerValidator.safeParse({
+        ...validRegistration,
+        lastname: 'A'.repeat(51),
+      });
+
+      expect(result.success).toBe(false);
+    });
+  });
 });
